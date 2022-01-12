@@ -1,0 +1,46 @@
+.IntroducePage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+
+  &__teacherSide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #9B5DE5;
+
+    &--title {
+      color: #FEE440;
+      text-transform: uppercase;
+    }
+
+    &--description {
+      color: #FEE440;
+    }
+  }
+
+  &__studentSide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #FEE440;
+
+    &--title {
+      color: #9B5DE5;
+      text-transform: uppercase;
+    }
+
+    &--description {
+      color: #9B5DE5;
+    }
+
+  }
+}

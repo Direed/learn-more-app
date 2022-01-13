@@ -19,6 +19,7 @@ const IntroducePage:FunctionComponent = () => {
                     color={IColor.yellow}
                     handleClick={() => {navigate(pageNames.login)}}
                 />
+                <img className='IntroducePage__teacherSide--svg' src={process.env.PUBLIC_URL+'/images/yellow_cat.svg'}/>
             </div>
             <div className='IntroducePage__studentSide'>
                 <h1 className='IntroducePage__studentSide--title'>I AM A STUDENT</h1>
@@ -28,6 +29,7 @@ const IntroducePage:FunctionComponent = () => {
                     color={IColor.purple}
                     handleClick={() => {navigate(pageNames.register)}}
                 />
+                <img className='IntroducePage__studentSide--svg' src={process.env.PUBLIC_URL+'/images/gray_cat.svg'} />
             </div>
         </div>
     )

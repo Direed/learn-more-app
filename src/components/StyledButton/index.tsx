@@ -3,6 +3,7 @@ import {makeStyles} from "@mui/styles";
 import classNames from "classnames";
 
 type IProps = {
+    className?: string,
     color: IColor,
     type?: string,
     text: string,
@@ -45,10 +46,10 @@ const useStyles = makeStyles({
     }
 });
 
-const Button: React.FC<IProps> = ({color, type, text, handleClick}: IProps) => {
+const Button: React.FC<IProps> = ({className, color, type, text, handleClick}: IProps) => {
     const classes = useStyles();
     return (
-        <div className={classNames(classes.root, classes[color])} onClick={handleClick}>
+        <div className={classNames(classes.root, classes[color], className && className)} onClick={handleClick}>
             {text}
         </div>
     )

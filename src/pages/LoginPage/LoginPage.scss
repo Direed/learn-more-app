@@ -1,0 +1,32 @@
+.LoginPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #9B5DE5;
+  &__title {
+    margin: 20px 0;
+    font-size: 70px;
+    color: #FEE440;
+    text-transform: uppercase;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &--input {
+
+    }
+
+    &--button {
+      margin-top: 32px;
+    }
+
+  }
+
+
+}

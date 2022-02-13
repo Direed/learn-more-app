@@ -37,7 +37,7 @@ const useStyles = makeStyles({
         color: '#FEE440',
     },
     textPurple: {
-
+        color: '#9B5DE5',
     },
     input: {
         border: "none",
@@ -48,7 +48,7 @@ const useStyles = makeStyles({
         outline: "none",
     },
     yellow: {
-        backgroundColor: '#FEE440',
+        backgroundColor: '#FFF198',
         color: '#9B5DE5',
     },
     purple: {

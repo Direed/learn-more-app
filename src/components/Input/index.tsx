@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {ReactNode} from 'react'
 import {makeStyles} from "@mui/styles";
 import classNames from "classnames";
 
@@ -7,9 +7,12 @@ type IProps = {
     color: IColor,
     label: string,
     value: string,
-    handleChange: () => void,
+    handleChange: (e: ReactNode) => void,
     helperText?: string,
     helperAction?: () => void,
+    name: string,
+    id: string,
+    placeholder?: string,
 }
 
 export enum IColor {
@@ -58,12 +61,12 @@ const useStyles = makeStyles({
 
 });
 
-const Input: React.FC<IProps> = ({className, color, label, value, handleChange, helperText, helperAction}:IProps) => {
+const Input: React.FC<IProps> = ({className, color, label, value, handleChange, helperText, helperAction, name, id, placeholder}:IProps) => {
     const classes = useStyles()
     return (
         <div className={classNames(classes.root)}>
             <label className={classNames(classes.label, color === 'yellow' ? classes.textPurple : classes.textYellow)}>{label}</label>
-            <input className={classNames(classes.input, classes[color])} value={value} />
+            <input className={classNames(classes.input, classes[color])} name={name} id={id} value={value} onChange={handleChange} placeholder={placeholder}/>
             { helperText && (<label className={classNames(classes.helper, color === 'yellow' ? classes.textPurple : classes.textYellow)} onClick={helperAction}>{helperText}</label>)}
         </div>
     )

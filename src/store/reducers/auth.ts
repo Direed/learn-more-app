@@ -1,3 +1,4 @@
+import authConstants from '../constants/auth'
 interface AuthState {
     key: number,
 }
@@ -13,6 +14,11 @@ export const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 key: payload,
+            }
+        case authConstants.SET_USER:
+            return {
+                ...state,
+
             }
         default:
             return {

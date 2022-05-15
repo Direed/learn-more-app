@@ -1,4 +1,5 @@
-import React, {FunctionComponent, useMemo} from 'react'
+import React, {FunctionComponent, useMemo, useState} from 'react'
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as Yup from 'yup'
@@ -18,16 +19,21 @@ interface IRegisterInitialValue {
 
 
 export interface IRegister {
+    userName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
     initialValues: IRegisterInitialValue,
     validationSchema: IRegisterInitialValue,
 }
 
 type IProps = {
-    role: IRole
+    role: IRole,
+    auth: any,
 }
 
-const RegisterPage: FunctionComponent<IProps> = ({role}:IProps) => {
-    console.log(role)
+
+const RegisterPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
     const navigate = useNavigate()
     const activeClass = useMemo(() => {
         return role === IRole.student ? {
@@ -41,27 +47,78 @@ const RegisterPage: FunctionComponent<IProps> = ({role}:IProps) => {
         };
     }, [role])
 
+
     const formik = useFormik<IRegister>({
         initialValues: {
             userName: '',
+            email: '',
             password: '',
+            confirmPassword: '',
         },
         validationSchema: Yup.object({
             userName: Yup.string().max(20, 'Must be 20 characters or less').required('Required'),
-            password: Yup.string().uuid()
+            // password: Yup.string().uuid()
         }),
+        onSubmit: (values) => {
+            console.log('register')
+            debugger
+            if(values.confirmPassword === values.password) {
+                createUserWithEmailAndPassword(auth, values.email, values.password)
+                    .then((userCredential) => {
+                        console.log('SIGNED IN SUCCESS')
+                        const user = userCredential.user;
+                        console.log(user, 'user')
+                    })
+                    .catch((error) => {
+                        console.log('SIGN IN ERROR')
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(errorCode, 'errorCode')
+                        console.log(errorMessage, 'errorMessage')
+                    });
+            }
+        }
     });
-
-    console.log(formik)
     return (
         <div className={activeClass.className}>
             <h1 className={`${activeClass.className}__title`}>Create Account</h1>
             <form className={`${activeClass.className}__form`}>
-                <Input color={activeClass.inputColor} label={'First name'} value={'sdfsdf'} handleChange={() => {}} />
-                <Input color={activeClass.inputColor} label={'Email'} value={'erwr3r@gmail.com'} handleChange={() => {}} />
-                <Input color={activeClass.inputColor} label={'Password'} value={'32423'} handleChange={() => {}} />
-                <Input color={activeClass.inputColor} label={'Confirm password'} value={'32423'} handleChange={() => {}} />
-                <Button className={`${activeClass.className}__form--button`} text={'Create'} color={activeClass.buttonColor} handleClick={() => {}} />
+                <Input
+                    id='userName'
+                    name='userName'
+                    placeholder={'First name'}
+                    color={activeClass.inputColor}
+                    label={'First name'}
+                    value={formik.values.userName}
+                    handleChange={formik.handleChange}
+                />
+                <Input
+                    id='email'
+                    name='email'
+                    placeholder={'Email'}
+                    color={activeClass.inputColor}
+                    label={'Email'} value={formik.values.email}
+                    handleChange={formik?.handleChange}
+                />
+                <Input
+                    id='password'
+                    name='password'
+                    placeholder={'Password'}
+                    color={activeClass.inputColor}
+                    label={'Password'}
+                    value={formik.values.password}
+                    handleChange={formik.handleChange}
+                />
+                <Input
+                    id='confirmPassword'
+                    name='confirmPassword'
+                    placeholder={"Confirm password"}
+                    color={activeClass.inputColor}
+                    label={'Confirm password'}
+                    value={formik.values.confirmPassword}
+                    handleChange={formik.handleChange}
+                />
+                <Button className={`${activeClass.className}__form--button`} text={'Create'} color={activeClass.buttonColor} handleClick={formik.handleSubmit} />
             </form>
             <img className={`${activeClass.className}__svg`} src={process.env.PUBLIC_URL+'/images/yellow_cat.svg'}/>
             <div className={`${activeClass.className}__footerTitle`}>

@@ -1,0 +1,54 @@
+@import "../../variables.scss";
+
+.subjectsPage {
+  width: 100%;
+  height: calc(100vh - 145px);
+  padding: 75px 35px 0 35px;
+  background-color: $purpleColor;
+  overflow: hidden;
+}
+
+
+
+.subjectComponent {
+  background-color: #FFFFFF;
+  margin: 0 10px;
+  border-radius: 8px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &--wrapper {
+
+  }
+
+  &--title {
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 33px;
+    color: #242424;
+  }
+
+  &--description {
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #242424;
+  }
+
+  &--phrase {
+    font-family: 'Geometria';
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 16px;
+
+    color: #242424;
+  }
+
+}

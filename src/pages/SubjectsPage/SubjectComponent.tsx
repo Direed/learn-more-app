@@ -1,7 +1,7 @@
 import React from 'react'
 import Button, {IColor} from "../../components/StyledButton";
 
-const SubjectComponent = ({title, description, phrase}) => {
+const SubjectComponent = ({title, description, phrase, handleClick}) => {
     return (
         <div className='subjectComponent'>
             <div className='subjectComponent--wrapper'>
@@ -13,7 +13,7 @@ const SubjectComponent = ({title, description, phrase}) => {
                 className={``}
                 text={'Take the test'}
                 color={IColor.purple}
-                handleClick={() => console.log()}
+                handleClick={handleClick}
             />
         </div>
     )

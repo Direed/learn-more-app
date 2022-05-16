@@ -15,6 +15,7 @@ export default React.memo(function Carousel({children}) {
         variableWidth: false,
         rows: 1,
         rtl: true,
+        vertical: false,
     };
     return (
         <Slider {...settings}>

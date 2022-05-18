@@ -15,7 +15,9 @@ type IProps = {
     setIsOpenMenu: (value: boolean) => void
 }
 
+
 const Header: React.FC<IProps> = ({title, user, countAlerts = 0, isOpenMenu, setIsOpenMenu}: IProps) => {
+    console.log(process)
     return (
         <div className='Header'>
             <div className='Header__menu' onClick={() => {

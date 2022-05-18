@@ -4,9 +4,10 @@ import SideBar from "../components/SideBar";
 
 type IProps = {
     children: ReactElement
+    isTopic?: boolean
 }
 
-const Wrapper: React.FC<IProps> = ({children}: IProps) => {
+const Wrapper: React.FC<IProps> = ({children, isTopic = false}: IProps) => {
     const [isOpenMenu, setIsOpenMenu] = useState(false)
     return (
         <>
@@ -18,7 +19,7 @@ const Wrapper: React.FC<IProps> = ({children}: IProps) => {
                 setIsOpenMenu={setIsOpenMenu}
             />
             <div style={{display: 'flex', flexDirection: 'row'}}>
-                {isOpenMenu && <SideBar/>}
+                {isOpenMenu && <SideBar isTopic={isTopic}/>}
                 {children}
             </div>
         </>

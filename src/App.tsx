@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useState} from 'react';
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 import { initializeApp } from 'firebase/app';
 import {getAuth} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -9,11 +9,14 @@ import pathNames from './routes/pathes'
 import IntroducePage from "./pages/IntroducePage";
 import LoginPage, {IRole} from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import {Provider} from "react-redux";
-import {store} from "./store";
 import Wrapper from "./hoc/Wrapper";
 import HomePage from "./pages/HomePage";
 import SubjectsPage from "./pages/SubjectsPage";
+import SubjectPage from "./pages/SubjectPage";
+import VideoTopicPage from "./pages/Topic/VideoTopicPage";
+import TextTopicPage from "./pages/Topic/TextTopicPage";
+import HomeworkTopicPage from "./pages/Topic/HomeworkTopicPage";
+import TestTopicPage from "./pages/Topic/TestTopicPage";
 
 const firebaseConfig = {
     apiKey: process.env["REACT_APP_FIREBASE_API_KEY"],
@@ -36,17 +39,23 @@ console.log(app, 'app')
 function App<FunctionComponent>() {
     const [role, setRole] = useState<IRole>(IRole.student)
   return (
-      <Provider store={store}>
-          <Router>
-              <Routes>
-                  <Route path='/' element={<IntroducePage setRole={setRole}/>}/>
-                  <Route path={pathNames.login} element={<LoginPage role={role} auth={auth} />}/>
-                  <Route path={pathNames.register} element={<RegisterPage role={role} auth={auth} />}/>
-                  <Route path={pathNames.home} element={<Wrapper><HomePage db={db}/></Wrapper>}/>
-                  <Route path={pathNames.subjects} element={<Wrapper><SubjectsPage db={db} /></Wrapper>} />
-              </Routes>
-          </Router>
-      </Provider>
+      <Router>
+          <Routes>
+              <Route path='/' element={<IntroducePage setRole={setRole}/>}/>
+              <Route path={pathNames.login} element={<LoginPage role={role} auth={auth} />}/>
+              <Route path={pathNames.register} element={<RegisterPage role={role} auth={auth} />}/>
+              <Route path={pathNames.home} element={<Wrapper><HomePage db={db}/></Wrapper>}/>
+              <Route path={pathNames.subjects} element={<Wrapper><SubjectsPage db={db} /></Wrapper>} />
+              <Route path={pathNames.topics} element={<Wrapper><SubjectPage db={db} /></Wrapper>} />
+              <Route path={pathNames.topic.home}>
+                  <Route path={pathNames.topic.video} element={<Wrapper isTopic><VideoTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.text} element={<Wrapper isTopic><TextTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.homework} element={<Wrapper isTopic><HomeworkTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.test} element={<Wrapper isTopic><TestTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.home} element={<Navigate to={pathNames.topic.video} replace />}/>
+              </Route>
+          </Routes>
+      </Router>
   );
 }
 

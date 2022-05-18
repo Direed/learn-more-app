@@ -43,15 +43,15 @@ function App<FunctionComponent>() {
           <Routes>
               <Route path='/' element={<IntroducePage setRole={setRole}/>}/>
               <Route path={pathNames.login} element={<LoginPage role={role} auth={auth} />}/>
-              <Route path={pathNames.register} element={<RegisterPage role={role} auth={auth} />}/>
-              <Route path={pathNames.home} element={<Wrapper><HomePage db={db}/></Wrapper>}/>
-              <Route path={pathNames.subjects} element={<Wrapper><SubjectsPage db={db} /></Wrapper>} />
+              <Route path={pathNames.register} element={<RegisterPage role={role} auth={auth} db={db} />}/>
+              <Route path={pathNames.home} element={<Wrapper background={'#F6F8FF'} color={'#242424'}><HomePage db={db}/></Wrapper>}/>
+              <Route path={pathNames.subjects} element={<Wrapper background={'#9B5DE5'}><SubjectsPage db={db} /></Wrapper>} />
               <Route path={pathNames.topics} element={<Wrapper><SubjectPage db={db} /></Wrapper>} />
               <Route path={pathNames.topic.home}>
-                  <Route path={pathNames.topic.video} element={<Wrapper isTopic><VideoTopicPage db={db} /></Wrapper>} />
-                  <Route path={pathNames.topic.text} element={<Wrapper isTopic><TextTopicPage db={db} /></Wrapper>} />
-                  <Route path={pathNames.topic.homework} element={<Wrapper isTopic><HomeworkTopicPage db={db} /></Wrapper>} />
-                  <Route path={pathNames.topic.test} element={<Wrapper isTopic><TestTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.video} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><VideoTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.text} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><TextTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.homework} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><HomeworkTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.test} element={<Wrapper background={'#9B5DE5'} isTopic><TestTopicPage db={db} /></Wrapper>} />
                   <Route path={pathNames.topic.home} element={<Navigate to={pathNames.topic.video} replace />}/>
               </Route>
           </Routes>

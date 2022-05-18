@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.12.3",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.8.0",
     "@mui/styles": "^5.2.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",

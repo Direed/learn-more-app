@@ -1,6 +1,8 @@
 .VideoTopicPage {
   width: 100%;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 145px);
+  padding: 75px 35px 0 35px;
+  background-color: #E5E5E5;
 
   &--title {
     text-align: center;

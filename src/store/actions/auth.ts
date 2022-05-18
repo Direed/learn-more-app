@@ -1,6 +1,7 @@
 import authConstants from '../constants/auth'
+import {IUser} from "../reducers/auth";
 
-export const setUser = (user: any) => ({
+export const setUser = (user: IUser) => ({
     type: authConstants.SET_USER,
     payload: user,
 })

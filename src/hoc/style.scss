@@ -1,0 +1,35 @@
+.BackButton {
+  padding: 15px 25px;
+  position: absolute;
+  width: 149px;
+  height: 48px;
+  left: 250px;
+  top: 100px;
+
+  background: #F15BB5;
+  border-radius: 41.25px;
+
+  font-family: 'Geometria';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  /* identical to box height */
+
+  text-align: center;
+
+  /* Background */
+
+  color: #F6F8FF;
+  border: 1px solid #F15BB5;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+
+  &.disableSideBar {
+    left: 50px;
+  }
+}

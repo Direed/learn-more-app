@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useMemo, useState} from 'react'
+import React, {FunctionComponent, useCallback, useMemo, useState} from 'react'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
@@ -11,6 +11,9 @@ import Button from "../../components/StyledButton";
 
 import pageNames from '../../routes/pathes'
 import {IRole} from "../LoginPage";
+import {collection, doc, getDocs, setDoc} from 'firebase/firestore';
+import {useDispatch} from "react-redux";
+import {setUser} from "../../store/actions/auth";
 
 interface IRegisterInitialValue {
     userName: string,
@@ -30,10 +33,12 @@ export interface IRegister {
 type IProps = {
     role: IRole,
     auth: any,
+    db: any,
 }
 
 
-const RegisterPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
+const RegisterPage: FunctionComponent<IProps> = ({role, auth, db}:IProps) => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const activeClass = useMemo(() => {
         return role === IRole.student ? {
@@ -47,6 +52,15 @@ const RegisterPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
         };
     }, [role])
 
+    const SetUserDataInDB = useCallback( async (user) => {
+        const userData = {
+            uid: user.uid,
+            first_name: user.first_name,
+            email: user.email,
+        };
+        await setDoc(doc(db, "Users", user.uid), userData);
+        dispatch(setUser(userData))
+    }, [])
 
     const formik = useFormik<IRegister>({
         initialValues: {
@@ -60,14 +74,12 @@ const RegisterPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
             // password: Yup.string().uuid()
         }),
         onSubmit: (values) => {
-            console.log('register')
-            debugger
             if(values.confirmPassword === values.password) {
                 createUserWithEmailAndPassword(auth, values.email, values.password)
                     .then((userCredential) => {
-                        console.log('SIGNED IN SUCCESS')
                         const user = userCredential.user;
-                        console.log(user, 'user')
+                        SetUserDataInDB({uid: user.uid ,first_name: values.userName, email: values.email})
+                        navigate(pageNames.home)
                     })
                     .catch((error) => {
                         console.log('SIGN IN ERROR')
@@ -79,6 +91,7 @@ const RegisterPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
             }
         }
     });
+
     return (
         <div className={activeClass.className}>
             <h1 className={`${activeClass.className}__title`}>Create Account</h1>

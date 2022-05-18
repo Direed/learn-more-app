@@ -5,9 +5,13 @@ import 'react-calendar/dist/Calendar.css';
 import './Calendar.scss'
 import './Home.scss'
 import TasksList from "../../components/TasksList";
+import {useSelector} from "react-redux";
+import {getUser} from "../../store/selectors/auth";
+import RecentlyComponent from "./RecentlyComponent";
 
 
 const HomePage: React.FC<any> = ({db}) => {
+    const user = useSelector(getUser)
     const [querySnapshot, setQuerySnapshot] = useState<any>(null)
     console.log(db, 'db')
 
@@ -37,61 +41,50 @@ const HomePage: React.FC<any> = ({db}) => {
 
     console.log('querySnapshot', querySnapshot)
 
-    const tasks = [
+    const recentlyList = [
         {
-            name: 'Math',
-            time: new Date()
+            subject: 'Math',
+            topic: 'Addition',
+            progress: '80%',
         },
         {
-            name: 'Math',
-            time: new Date()
+            subject: 'English',
+            topic: 'Past Simple',
+            progress: '20%',
         },
         {
-            name: 'Math',
-            time: new Date()
-        },
-        {
-            name: 'Math',
-            time: new Date()
-        },
-        {
-            name: 'Math',
-            time: new Date()
-        },
-        {
-            name: 'Math',
-            time: new Date()
+            subject: 'Biology',
+            topic: 'Brain',
+            progress: '50%',
         },
     ]
 
     return (
         <div className='Home'>
-            <div className='Home__doneTasksWrapper'>
-                <TasksList tasks={tasks}/>
-            </div>
-            <div className='Home__generalInformationWrapper'>
-                <div className='Home__generalInformationWrapper__actionsWrapper'>
-                    {/*<div className='Home__generalInformationWrapper__actionsWrapper--calendar'>*/}
-                    {/*    <Calendar*/}
-                    {/*        showFixedNumberOfWeeks={true}*/}
-                    {/*        locale={"en"}*/}
-                    {/*    />*/}
-                    {/*</div>*/}
-                    <div className='Home__generalInformationWrapper__actionsWrapper--doHomework'>
-                        <div className='Home__generalInformationWrapper__actionsWrapper--doHomework--header'>
-                            <a>{`Hello, ${'Anton'}`}</a>
-                            <div>www</div>
+            <div className='LeftHomeWrapper'>
+                <div className='TitleWrapper'>
+                    <div className='TitleWrapper--firstRow'>
+                        <a>{`Hello ${user?.first_name}`}</a>
+                        <div>
+                            <a>{'0 points'}</a>
+                            <img src={process.env.PUBLIC_URL + '/images/Star.svg'} />
                         </div>
-                       <a>Don’t forget to do
-                           your homework!
-                       </a>
-                        <button>YOUR HOMEWORK</button>
                     </div>
+                    <a className='TitleWrapper--secondRow'>Don’t forget to do your homework!</a>
+                    <button className='TitleWrapper--thirdRow' type={"button"}>
+                        Your homework
+                    </button>
                 </div>
-                <div className='Home__generalInformationWrapper--achievements'>
-
+                <RecentlyComponent recentlyItems={recentlyList} />
+                <div>
                 </div>
             </div>
+            <div className='RightHomeWrapper'>
+
+            </div>
+            {/*<div className='Home__doneTasksWrapper'>*/}
+            {/*    <TasksList tasks={tasks}/>*/}
+            {/*</div>*/}
         </div>
     )
 }

@@ -3,41 +3,217 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background-color: #00BBF9;
+  background-color: #F6F8FF;
   height: calc(100vh - 145px);
   padding: 75px 35px 0 35px;
 
-  &__doneTasksWrapper {
+}
 
-  }
+.LeftHomeWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
-  &__generalInformationWrapper {
+.TitleWrapper {
+  background: #8D5CF6;
+  border-radius: 30px;
+  max-width: 800px;
+  width: 100%;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  &--firstRow {
     display: flex;
-    flex-direction: column;
+    margin-left: 50px;
+    margin-top: 30px;
 
-    &__actionsWrapper {
+    a {
+      font-family: 'Geometria';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 25px;
+
+      color: #FFFFFF;
       display: flex;
-      flex-direction: row;
+      align-items: center;
 
-      &--doHomework {
-        max-width: 400px;
-        min-width: 300px;
-        height: 248px;
-        background: #9B5DE5;
-        border-radius: 30px;
-        margin-left: 30px;
-        padding: 30px;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      background: #FFFFFF;
+      border-radius: 30px;
+      height: 36px;
+      margin-left: 40%;
+
+      img {
+        margin-right: 17px;
+      }
+
+      a {
+        font-family: 'Geometria';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 17px;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        &--header {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-        }
+        align-items: center;
+        color: #000000;
+        margin-left: 17px;
+        margin-right: 11px;
       }
     }
   }
+
+
+  &--secondRow {
+    margin-left: 50px;
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    color: #FFFFFF;
+  }
+
+  &--thirdRow {
+    width: 158px;
+    margin-left: 50px;
+    background: #FEE440;
+    border-radius: 28px;
+    border: solid #FEE440 2px;
+    height: 45px;
+    cursor: pointer;
+    transition: 300ms;
+    margin-bottom: 30px;
+
+    &:hover {
+      border: solid #F15BB5 2px;
+    }
+  }
+
+}
+
+.RecentlyComponent {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  /* Shadow */
+
+  box-shadow: 0px 4px 12px rgba(224, 214, 214, 0.25);
+  border-radius: 30px;
+  border-radius: 30px;
+  max-width: 800px;
+  width: 100%;
+
+  &--titleWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    margin-top: 30px;
+
+    a {
+      font-family: 'Geometria';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 33px;
+      /* identical to box height */
+      margin-right: 15px;
+
+
+      /* Black */
+
+      color: #1D1D1D;
+    }
+
+    button {
+      background: #8D5CF6;
+      border-radius: 7px;
+      border: solid 1px #FFFFFF;
+      height: 22px;
+      cursor: pointer;
+      transition: 300ms;
+      color: #FFFFFF;
+      width: 73px;
+      font-family: 'Geometria';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 17px;
+      text-align: center;
+
+
+      &:hover {
+        border: solid 1px #8D5CF6;
+        background-color: #FFFFFF;
+        color: #000000;
+      }
+    }
+  }
+
+  &--tabsWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px 50px 30px 50px;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F15BB5;
+      border-radius: 15px;
+      width: 199px;
+      height: 44px;
+      color: #FFFFFF;
+      font-family: 'Geometria';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 18px;
+      /* identical to box height */
+
+      text-align: center;
+    }
+  }
+}
+
+
+.RecentlyList {
+  display: flex;
+  flex-direction: column;
+  margin: 0 50px 50px 50px;
+}
+
+.RecentlyItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #EBEAE3;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--itemWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 199px;
+    height: 44px;
+  }
+}
+
+.RightHomeWrapper {
 
 }

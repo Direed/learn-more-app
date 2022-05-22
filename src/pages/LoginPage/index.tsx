@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useMemo} from 'react'
+import React, {FunctionComponent, useCallback, useMemo} from 'react'
 import {useFormik} from "formik";
 import * as Yup from 'yup'
 import {useNavigate} from "react-router-dom";
@@ -13,11 +13,13 @@ import pathes from "../../routes/pathes";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import {useDispatch} from "react-redux";
 import {setUser} from "../../store/actions/auth";
+import {query, collectionGroup, getDocs} from "firebase/firestore";
 
 
 type IProps = {
     role: IRole,
-    auth: any
+    auth: any,
+    db: any,
 }
 
 export enum IRole {
@@ -37,7 +39,7 @@ interface ILoginIV {
     password: string,
 }
 
-const LoginPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
+const LoginPage: FunctionComponent<IProps> = ({role, auth, db}:IProps) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const activeClass = useMemo(() => {
@@ -52,6 +54,19 @@ const LoginPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
         };
     }, [role])
 
+    const GetUserDataInDB = useCallback( async (userUID: any) => {
+        debugger
+        const users = query(collectionGroup(db, 'Users'))
+        const querySnapshot = await getDocs(users);
+        querySnapshot.docs.forEach((user) => {
+            let user_data: any = user.data()
+            if(user_data?.uid === userUID) {
+                dispatch(setUser(user_data))
+            }
+        })
+        console.log(querySnapshot, 'users in querySnapshot')
+    }, [])
+
     const formik = useFormik<ILogin>({
         initialValues: {
             email: '',
@@ -65,7 +80,7 @@ const LoginPage: FunctionComponent<IProps> = ({role, auth}:IProps) => {
             signInWithEmailAndPassword(auth, values.email, values.password)
                 .then((userCredential) => {
                     console.log('userCredential', userCredential)
-                    dispatch(setUser(userCredential.user))
+                    GetUserDataInDB(userCredential?.user?.uid)
                     navigate(pathes.home)
                 })
                 .catch((error) => {

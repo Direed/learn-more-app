@@ -42,11 +42,11 @@ function App<FunctionComponent>() {
       <Router>
           <Routes>
               <Route path='/' element={<IntroducePage setRole={setRole}/>}/>
-              <Route path={pathNames.login} element={<LoginPage role={role} auth={auth} />}/>
+              <Route path={pathNames.login} element={<LoginPage role={role} auth={auth} db={db} />}/>
               <Route path={pathNames.register} element={<RegisterPage role={role} auth={auth} db={db} />}/>
               <Route path={pathNames.home} element={<Wrapper background={'#F6F8FF'} color={'#242424'}><HomePage db={db}/></Wrapper>}/>
               <Route path={pathNames.subjects} element={<Wrapper background={'#9B5DE5'}><SubjectsPage db={db} /></Wrapper>} />
-              <Route path={pathNames.topics} element={<Wrapper><SubjectPage db={db} /></Wrapper>} />
+              <Route path={pathNames.topics} element={<Wrapper background={'#9B5DE5'}><SubjectPage db={db} /></Wrapper>} />
               <Route path={pathNames.topic.home}>
                   <Route path={pathNames.topic.video} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><VideoTopicPage db={db} /></Wrapper>} />
                   <Route path={pathNames.topic.text} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><TextTopicPage db={db} /></Wrapper>} />

@@ -40,6 +40,7 @@ export const testReducer = (state = initialState, action: any) => {
                 isStartTest: false,
                 answers: null,
                 tests: null,
+                currentTest: 0,
             }
         case testConstants.SET_CURRENT_TEST:
             return {

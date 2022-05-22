@@ -75,7 +75,7 @@ const SideBar = ({isTopic, background, color}: any) => {
             },
             {
                 title: 'Subjects',
-                img: process.env.PUBLIC_URL + '/images/subjects.svg',
+                img: process.env.PUBLIC_URL + '/images/Subjects.svg',
                 bgColor: '#2a2828',
                 to: pathes.subjects,
                 handleClick: () => {
@@ -88,7 +88,37 @@ const SideBar = ({isTopic, background, color}: any) => {
                 title: 'Completed works',
                 img: process.env.PUBLIC_URL + '/images/completed_works.svg',
                 bgColor: '#2a2828',
-                to: pathes.topics,
+                to: pathes.topic.home,
+                handleClick: () => {
+                    navigate(pathes.home)
+                    dispatch(setActiveRoute('Completed works'))
+                }
+            },
+            {
+                title: 'Progress',
+                img: process.env.PUBLIC_URL + '/images/Progress.svg',
+                bgColor: '#2a2828',
+                to: pathes.topic.home,
+                handleClick: () => {
+                    navigate(pathes.home)
+                    dispatch(setActiveRoute('Completed works'))
+                }
+            },
+            {
+                title: 'Settings',
+                img: process.env.PUBLIC_URL + '/images/Settings.svg',
+                bgColor: '#2a2828',
+                to: pathes.topic.home,
+                handleClick: () => {
+                    navigate(pathes.home)
+                    dispatch(setActiveRoute('Completed works'))
+                }
+            },
+            {
+                title: 'Support',
+                img: process.env.PUBLIC_URL + '/images/Support.svg',
+                bgColor: '#2a2828',
+                to: pathes.topic.home,
                 handleClick: () => {
                     navigate(pathes.home)
                     dispatch(setActiveRoute('Completed works'))

@@ -6,8 +6,13 @@ import './IntroducePage.scss'
 import pageNames from '../../routes/pathes'
 
 import Button, {IColor} from "../../components/StyledButton";
+import {IRole} from "../LoginPage";
 
-const IntroducePage:FunctionComponent = () => {
+type IProps = {
+    setRole: (value: IRole) => void
+}
+
+const IntroducePage:FunctionComponent<IProps> = ({setRole}:IProps) => {
     const navigate = useNavigate()
     return (
         <div className='IntroducePage'>
@@ -17,8 +22,12 @@ const IntroducePage:FunctionComponent = () => {
                 <Button
                     text='Continue'
                     color={IColor.yellow}
-                    handleClick={() => {navigate(pageNames.login)}}
+                    handleClick={() => {
+                        navigate(pageNames.login)
+                        setRole(IRole.teacher)
+                    }}
                 />
+                <img className='IntroducePage__teacherSide--svg' src={process.env.PUBLIC_URL+'/images/yellow_cat.svg'}/>
             </div>
             <div className='IntroducePage__studentSide'>
                 <h1 className='IntroducePage__studentSide--title'>I AM A STUDENT</h1>
@@ -26,8 +35,12 @@ const IntroducePage:FunctionComponent = () => {
                 <Button
                     text='Continue'
                     color={IColor.purple}
-                    handleClick={() => {navigate(pageNames.register)}}
+                    handleClick={() => {
+                        navigate(pageNames.login)
+                        setRole(IRole.student)
+                    }}
                 />
+                <img className='IntroducePage__studentSide--svg' src={process.env.PUBLIC_URL+'/images/gray_cat.svg'} />
             </div>
         </div>
     )

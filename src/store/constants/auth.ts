@@ -1,0 +1,6 @@
+export default {
+    SET_USER: 'SET_USER',
+
+    SET_ACTIVE_ROUTE: 'SET_ACTIVE_ROUTE',
+    SET_MAIN_BG_COLOR: 'SET_MAIN_BG_COLOR'
+}

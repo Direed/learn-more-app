@@ -1,0 +1,25 @@
+.VideoTopicPage {
+  width: 100%;
+  height: calc(100vh - 145px);
+  padding: 75px 35px 0 35px;
+  background-color: #E5E5E5;
+
+  &--title {
+    text-align: center;
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 33px;
+    color: #19222F;
+  }
+}
+
+.VideoWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.VideoIframe {
+  border-radius: 12px;
+}

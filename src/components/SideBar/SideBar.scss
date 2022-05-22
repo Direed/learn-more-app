@@ -1,0 +1,46 @@
+.SideBar {
+  min-width: 200px;
+  background: #2a2828;
+  padding-top: 180px;
+
+  &--title {
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+    color: #F6F8FF;
+    text-align: center;
+  }
+
+
+  .navLink {
+    text-decoration: none;
+
+    & .active {
+      text-decoration: none;
+    }
+  }
+
+
+  div {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 30px 5px 5px 30px;
+    color: #ffffff;
+    cursor: pointer;
+
+  }
+
+  img {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    z-index: 100;
+  }
+}

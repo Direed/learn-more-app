@@ -98,10 +98,10 @@ const SideBar = ({isTopic, background, color}: any) => {
                 title: 'Progress',
                 img: process.env.PUBLIC_URL + '/images/Progress.svg',
                 bgColor: '#2a2828',
-                to: pathes.topic.home,
+                to: pathes.progress,
                 handleClick: () => {
                     navigate(pathes.home)
-                    dispatch(setActiveRoute('Completed works'))
+                    dispatch(setActiveRoute('Progress'))
                 }
             },
             {

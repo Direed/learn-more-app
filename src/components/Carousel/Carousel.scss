@@ -1,2 +1,55 @@
-@import "slick-carousel/slick/slick.css";
-@import "slick-carousel/slick/slick-theme.css";
+.center {
+
+  & > div > div {
+    display: flex;
+    align-items: center;
+    .slick-center {
+      //transform: scale(1.3);
+      & > div > div {
+        width: 340px;
+        height: 270px;
+        //width: 430px;
+        //height: 340px;
+      }
+    }
+  }
+}
+
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 70px;
+
+  div {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+
+    img {
+      transform: rotateY(180deg);
+    }
+  }
+
+  &--next {
+    background: #FFFFFF;
+    border: 4px solid #FFFFFF;
+    margin-left: 40px;
+
+    &:hover {
+      background-color: #9B5DE5;
+    }
+  }
+
+  &--prev {
+    border: 4px solid #FFFFFF;
+
+    &:hover {
+      background-color: #FFFFFF;
+    }
+  }
+}

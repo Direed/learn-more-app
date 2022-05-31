@@ -38,16 +38,23 @@ const SubjectPage = ({db}) => {
 
 
     const topicsObject = useMemo(() => {
-        console.log(subject?.topics, 'subject?.topics?')
-        return gradeTopics?.topics?.map((topic) => <SubjectComponent
-            title={topic.title}
-            description={topic.description}
-            phrase={topic.phrase}
-            handleClick={() => {
-                dispatch(setTopic(topic))
-                navigate(pathes.topic.home)
-            }}
-        />).reverse()
+        // if (gradeTopics?.topics.length <= 3) {
+        //     gradeTopics?.topics.push({isHiden: true})
+        // }
+        return gradeTopics?.topics?.map((topic) => {
+            if(topic.isHiden) {
+                return (<SubjectComponent
+                    isHiden
+                />)
+            }
+            return (<SubjectComponent
+                title={topic.title}
+                handleClick={() => {
+                    dispatch(setTopic(topic))
+                    navigate(pathes.topic.home)
+                }}
+            />)
+        }).reverse()
     }, [gradeTopics])
 
     console.log(topicsObject)

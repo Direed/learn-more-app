@@ -10,6 +10,7 @@ export default {
         text: '/subjects/topics/topic/text',
         homework: '/subjects/topics/topic/homework',
         test: '/subjects/topics/topic/test',
-    }
+    },
+    progress: '/progress',
 }
 

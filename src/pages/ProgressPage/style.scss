@@ -1,0 +1,93 @@
+.progress-page {
+  background-color: #8D5CF6;
+  width: 100%;
+  height: calc(100vh - 145px);
+  padding: 75px 35px 0 35px;
+}
+
+.progress-page-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+.progress-component {
+  display: flex;
+  max-width: 340px;
+  max-height: 200px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  height: 200px;
+}
+
+.progress-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+
+  &--outside-circle {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: conic-gradient(#8D5CF6 var(--progress), #EBEAE3 0deg);
+  }
+
+  &--inside-circle {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+  }
+
+  p {
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #323232;
+  }
+}
+
+.information-wrapper {
+
+  &--title {
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+
+    /* Black */
+
+    color: #1D1D1D;
+  }
+}
+
+.subtitle-wrapper {
+  display: flex;
+
+  p {
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+    /* identical to box height */
+
+
+    /* Less black */
+
+    color: #4D4D4D;
+  }
+}

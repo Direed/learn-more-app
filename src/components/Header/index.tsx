@@ -13,6 +13,7 @@ type IProps = {
 
 const Header: React.FC<IProps> = ({title, user, countAlerts = 0, isOpenMenu, setIsOpenMenu}: IProps) => {
     console.log('proccess', process.env)
+    console.log(user?.photo, 'photo')
     return (
         <div className='Header'>
             <div className='Header__menu' onClick={() => {

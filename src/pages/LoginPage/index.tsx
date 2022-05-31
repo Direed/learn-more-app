@@ -14,12 +14,14 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import {useDispatch} from "react-redux";
 import {setUser} from "../../store/actions/auth";
 import {query, collectionGroup, getDocs} from "firebase/firestore";
+import { getBlob, getDownloadURL, ref} from 'firebase/storage';
 
 
 type IProps = {
     role: IRole,
     auth: any,
     db: any,
+    storage: any,
 }
 
 export enum IRole {
@@ -39,7 +41,7 @@ interface ILoginIV {
     password: string,
 }
 
-const LoginPage: FunctionComponent<IProps> = ({role, auth, db}:IProps) => {
+const LoginPage: FunctionComponent<IProps> = ({role, auth, db, storage}:IProps) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const activeClass = useMemo(() => {
@@ -55,13 +57,14 @@ const LoginPage: FunctionComponent<IProps> = ({role, auth, db}:IProps) => {
     }, [role])
 
     const GetUserDataInDB = useCallback( async (userUID: any) => {
-        debugger
         const users = query(collectionGroup(db, 'Users'))
         const querySnapshot = await getDocs(users);
+        const avatarRef = ref(storage, `User's avatar/${userUID}.jpg`)
+        const avatar = await getDownloadURL(avatarRef)
         querySnapshot.docs.forEach((user) => {
             let user_data: any = user.data()
             if(user_data?.uid === userUID) {
-                dispatch(setUser(user_data))
+                dispatch(setUser({...user_data, photo: avatar}))
             }
         })
         console.log(querySnapshot, 'users in querySnapshot')

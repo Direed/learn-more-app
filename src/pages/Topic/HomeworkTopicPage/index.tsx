@@ -1,10 +1,9 @@
 import React from 'react';
+import NotAvailablePage from "../../NotAvailablePage";
 
-const HomeworkTopicPage = ({db}) => {
+const HomeworkTopicPage = ({bgcolor}) => {
     return (
-        <div>
-            <h1></h1>
-        </div>
+        <NotAvailablePage bgcolor={bgcolor} />
     )
 }
 

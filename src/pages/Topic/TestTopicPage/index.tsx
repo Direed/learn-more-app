@@ -9,9 +9,11 @@ import {getAnswers, getCurrentTest, getIsStartTest, getTests} from "../../../sto
 import {FormControlLabel, Radio, RadioGroup} from "@mui/material";
 import {getSubject} from "../../../store/selectors/subject";
 import moment from "moment";
+import {getUser} from "../../../store/selectors/auth";
 
 const TestTopicPage = ({db}) => {
     const dispatch = useDispatch();
+    const user = useSelector(getUser)
     const subject = useSelector(getSubject)
     const topic = useSelector(getTopic);
     const tests = useSelector(getTests)
@@ -50,7 +52,6 @@ const TestTopicPage = ({db}) => {
 
     const onGiveAnswer = useCallback(() => {
         onNextStep()
-
         const userAnswers = answers.map((answer: any) => {
             const testRealAnswer = tests.find((test: any) => test.id === answer.id);
             return {
@@ -58,18 +59,25 @@ const TestTopicPage = ({db}) => {
                 isCorrectAnswer: answer?.answer === testRealAnswer?.right_answer
             }
         });
-        addCompletedTests(userAnswers)
+        let countRightAnswers = 0;
+        userAnswers.forEach((answer: any) => {
+            if(answer?.isCorrectAnswer) {
+                countRightAnswers++;
+            }
+        })
+        addCompletedTests(userAnswers, countRightAnswers)
     }, [answer])
 
 
-    const addCompletedTests = async (answers: any) => {
+    const addCompletedTests = async (answers: any, countRightAnswers: any) => {
         await addDoc(collection(db, "CompletedTests"), {
+            uid: user?.uid,
             subject: subject?.topics_link,
             subject_route: subject?.route,
             topic: topic?.topic_link,
             topic_route: topic?.route,
             answers: answers,
-            count_right_answers: 4,
+            count_right_answers: countRightAnswers,
             count_tests: answers?.length,
             date: moment(new Date()).toString(),
         });

@@ -88,7 +88,7 @@ const SideBar = ({isTopic, background, color}: any) => {
                 title: 'Completed works',
                 img: process.env.PUBLIC_URL + '/images/completed_works.svg',
                 bgColor: '#2a2828',
-                to: pathes.topic.home,
+                to: pathes.completedWorks,
                 handleClick: () => {
                     navigate(pathes.home)
                     dispatch(setActiveRoute('Completed works'))

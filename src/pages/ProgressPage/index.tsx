@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import ProgressesComponent from "./ProgressesComponent";
-import {collection, collectionGroup, getDocs, query} from "firebase/firestore";
+import {collection, collectionGroup, doc, getDoc, getDocs, query} from "firebase/firestore";
 
 import './style.scss'
 import set = Reflect.set;
+import {useSelector} from "react-redux";
+import {getUser} from "../../store/selectors/auth";
 
 const ProgressPage = ({db}: any) => {
+    const user = useSelector(getUser)
     const [subjects, setSubjects] = useState<any>(null)
     const [subjectsFullObjects, setSubjectsFullObjects] = useState<any>(null)
     console.log(subjects)
@@ -20,6 +23,12 @@ const ProgressPage = ({db}: any) => {
         });
         let newData = querySnapshot.docs.map(doc => doc.data())
         setSubjects([...newData])
+    }
+
+    async function fetchProgress () {
+        const myProgressRef = doc(db, 'CompletedSubjects', user.uid);
+        const myProgressObject = await getDoc(myProgressRef);
+        console.log(myProgressObject.data())
     }
 
     async function fetchLessons (subjectLink: any) {
@@ -53,6 +62,7 @@ const ProgressPage = ({db}: any) => {
 
     useEffect(() => {
         fetchData()
+        fetchProgress()
     }, [])
 
     useEffect(() => {
@@ -66,7 +76,7 @@ const ProgressPage = ({db}: any) => {
     }, [subjects])
 
     console.log(subjects)
-    console.log(subjectsFullObjects)
+    console.log(subjectsFullObjects, 'subjectsFullObjects')
 
     return (
         <div className='progress-page'>

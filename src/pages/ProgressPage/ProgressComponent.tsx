@@ -1,6 +1,16 @@
-import React from "react";
+import React, {useCallback} from "react";
+import {useDispatch} from "react-redux";
+import {setSubjectProgress} from "../../store/actions/progress";
+import {useNavigate} from "react-router-dom";
+import pathes from "../../routes/pathes";
 
-const ProgressComponent = ({title, subtitles, percent, }) => {
+const ProgressComponent = ({title, subtitles, percent, subject}: any) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const onOpenSubjectProgress = useCallback(() => {
+        dispatch(setSubjectProgress(subject))
+        navigate(pathes.subjectProgress)
+    }, [subject])
     return (
         <div className='progress-component'>
             <div className={'progress-bar-wrapper'}>
@@ -27,7 +37,7 @@ const ProgressComponent = ({title, subtitles, percent, }) => {
                         <p>{`${subtitles[2]} homeworks`}</p>
                     </div>
                 </div>
-                <button>Continue</button>
+                <button className='information-wrapper--button' onClick={onOpenSubjectProgress}>Continue</button>
             </div>
         </div>
     )

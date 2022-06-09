@@ -12,5 +12,7 @@ export default {
         test: '/subjects/topics/topic/test',
     },
     progress: '/progress',
+    subjectProgress: '/progress/subject',
+    completedWorks: '/completed-works'
 }
 

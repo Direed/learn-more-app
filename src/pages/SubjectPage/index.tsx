@@ -50,7 +50,7 @@ const SubjectPage = ({db}) => {
             return (<SubjectComponent
                 title={topic.title}
                 handleClick={() => {
-                    dispatch(setTopic(topic))
+                    dispatch(setTopic({grade: gradeTopics.title, ...topic}))
                     navigate(pathes.topic.home)
                 }}
             />)

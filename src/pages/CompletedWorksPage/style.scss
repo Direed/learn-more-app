@@ -1,0 +1,133 @@
+.completed-works-page {
+  background-color: #8D5CF6;
+  width: 100%;
+  height: calc(100vh - 105px);
+  padding: 35px 35px 0 35px;
+  display: flex;
+  justify-content: center;
+}
+
+.completed-works-wrapper {
+  max-width: 880px;
+  width: 100%;
+}
+
+.search-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  &--input {
+    width: 100%;
+    max-width: 700px;
+    max-height: 50px;
+    & > div {
+      max-height: 50px;
+      background: #FFFFFF;
+      box-shadow: 0px 4px 12px rgba(224, 214, 214, 0.25);
+      border-radius: 30px;
+    }
+  }
+
+  &--button {
+  }
+}
+
+.table-wrapper {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 12px rgba(224, 214, 214, 0.25);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+
+  &--title {
+    margin-left: 50px;
+    margin-top: 34px;
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 33px;
+
+    color: #1D1D1D;
+  }
+
+}
+
+.filters-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 50px;
+
+  div {
+    width: 199px;
+    height: 44px;
+    background: #FFFFFF;
+    border-radius: 15px;
+    border: 1px solid #F15BB5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #F15BB5;
+    cursor: pointer;
+
+  }
+
+  .active {
+    width: 199px;
+    height: 44px;
+    background: #F15BB5;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  margin: 0 50px 34px 50px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #EBEAE3;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar {
+  width: 221px;
+  height: 17px;
+  background: #EBEAE3;
+  border-radius: 8px;
+
+  div {
+    background: #8D5CF6;
+    border-radius: 8px;
+    height: 17px;
+  }
+}

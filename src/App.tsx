@@ -19,6 +19,8 @@ import TextTopicPage from "./pages/Topic/TextTopicPage";
 import HomeworkTopicPage from "./pages/Topic/HomeworkTopicPage";
 import TestTopicPage from "./pages/Topic/TestTopicPage";
 import ProgressPage from "./pages/ProgressPage";
+import CompletedWorksPage from "./pages/CompletedWorksPage";
+import SubjectProgressPage from "./pages/SubjectProgressPage";
 
 const firebaseConfig = {
     apiKey: process.env["REACT_APP_FIREBASE_API_KEY"],
@@ -48,11 +50,13 @@ function App<FunctionComponent>() {
               <Route path={pathNames.home} element={<Wrapper background={'#F6F8FF'} color={'#242424'}><HomePage db={db}/></Wrapper>}/>
               <Route path={pathNames.subjects} element={<Wrapper background={'#9B5DE5'}><SubjectsPage db={db} /></Wrapper>} />
               <Route path={pathNames.topics} element={<Wrapper background={'#9B5DE5'}><SubjectPage db={db} /></Wrapper>} />
+              <Route path={pathNames.completedWorks} element={<Wrapper background={'#8D5CF6'}><CompletedWorksPage db={db} /></Wrapper>} />
               <Route path={pathNames.progress} element={<Wrapper background={'#8D5CF6'}><ProgressPage db={db} /></Wrapper>} />
+              <Route path={pathNames.subjectProgress} element={<Wrapper background={'#8D5CF6'}><SubjectProgressPage db={db} /></Wrapper>} />
               <Route path={pathNames.topic.home}>
                   <Route path={pathNames.topic.video} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><VideoTopicPage db={db} /></Wrapper>} />
                   <Route path={pathNames.topic.text} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><TextTopicPage db={db} /></Wrapper>} />
-                  <Route path={pathNames.topic.homework} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><HomeworkTopicPage db={db} /></Wrapper>} />
+                  <Route path={pathNames.topic.homework} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><HomeworkTopicPage bgcolor={'#E5E5E5'} /></Wrapper>} />
                   <Route path={pathNames.topic.test} element={<Wrapper background={'#9B5DE5'} isTopic><TestTopicPage db={db} /></Wrapper>} />
                   <Route path={pathNames.topic.home} element={<Navigate to={pathNames.topic.video} replace />}/>
               </Route>

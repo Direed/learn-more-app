@@ -4,6 +4,8 @@ export interface TestState {
     tests: any,
     isStartTest: boolean,
     currentTest: number,
+    isResultTest: boolean,
+    result: any,
 }
 
 const initialState: TestState = {
@@ -11,6 +13,8 @@ const initialState: TestState = {
     tests: null,
     isStartTest: false,
     currentTest: 0,
+    isResultTest: false,
+    result: {}
 }
 
 export const testReducer = (state = initialState, action: any) => {
@@ -31,21 +35,35 @@ export const testReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 isStartTest: false,
-                answers: null,
-                tests: null,
+                currentTest: 0,
+                isResultTest: true,
+                result: {
+                    ...payload
+                }
             }
         case testConstants.CLOSE_TEST:
             return {
                 ...state,
-                isStartTest: false,
                 answers: null,
                 tests: null,
+                isStartTest: false,
                 currentTest: 0,
+                isResultTest: false,
+                result: {}
             }
         case testConstants.SET_CURRENT_TEST:
             return {
                 ...state,
                 currentTest: payload,
+            }
+        case testConstants.CLEAR_TOPIC:
+            return {
+                answers: null,
+                tests: null,
+                isStartTest: false,
+                currentTest: 0,
+                isResultTest: false,
+                result: {}
             }
         default:
             return state;

@@ -9,4 +9,8 @@ export const getTests = createSelector(getState, (test) => test.tests)
 
 export const getIsStartTest = createSelector(getState, (test) => test.isStartTest)
 
+export const getIsResultTest = createSelector(getState, (test) => test.isResultTest)
+
+export const getResultTest = createSelector(getState, (test) => test.result)
+
 export const getCurrentTest = createSelector(getState, (test) => test.currentTest)

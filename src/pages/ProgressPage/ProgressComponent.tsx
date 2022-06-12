@@ -16,7 +16,7 @@ const ProgressComponent = ({title, subtitles, percent, subject}: any) => {
             <div className={'progress-bar-wrapper'}>
                 <div className={'progress-bar-wrapper--outside-circle'} style={{ "--progress": `36deg`}}>
                     <div className={'progress-bar-wrapper--inside-circle'}>
-                        <img src={process.env.PUBLIC_URL+'/images/britan.svg'}/>
+                        <img src={process.env.PUBLIC_URL+'/images/subjectIcon.svg'}/>
                     </div>
                 </div>
                 <p>{percent}</p>

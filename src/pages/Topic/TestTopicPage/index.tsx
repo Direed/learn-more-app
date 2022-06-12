@@ -1,15 +1,23 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
 import './style.scss'
-import {collectionGroup, getDocs, query, collection, addDoc} from "firebase/firestore";
+import {collectionGroup, getDocs, query, collection, addDoc, doc, getDoc, updateDoc} from "firebase/firestore";
 import {useDispatch, useSelector} from "react-redux";
 import {getTopic} from "../../../store/selectors/topic";
-import {closeTest, setAnswers, setCurrentTest, startTest} from "../../../store/actions/test";
-import {getAnswers, getCurrentTest, getIsStartTest, getTests} from "../../../store/selectors/test";
+import {closeTest, completeTest, setAnswers, setCurrentTest, startTest} from "../../../store/actions/test";
+import {
+    getAnswers,
+    getCurrentTest,
+    getIsResultTest,
+    getIsStartTest,
+    getResultTest,
+    getTests
+} from "../../../store/selectors/test";
 import {FormControlLabel, Radio, RadioGroup} from "@mui/material";
 import {getSubject} from "../../../store/selectors/subject";
 import moment from "moment";
 import {getUser} from "../../../store/selectors/auth";
+import {toast} from "react-toastify";
 
 const TestTopicPage = ({db}) => {
     const dispatch = useDispatch();
@@ -18,8 +26,10 @@ const TestTopicPage = ({db}) => {
     const topic = useSelector(getTopic);
     const tests = useSelector(getTests)
     const answers = useSelector(getAnswers)
+    const result = useSelector(getResultTest)
     const currentTest = useSelector(getCurrentTest)
     const isStartTest = useSelector(getIsStartTest);
+    const isResultTest = useSelector(getIsResultTest)
     const [testsFromDB, setTestsFromDB] = useState<any>(null);
     const [answer, setAnswer] = useState<any>(null);
 
@@ -51,8 +61,8 @@ const TestTopicPage = ({db}) => {
     }
 
     const onGiveAnswer = useCallback(() => {
-        onNextStep()
-        const userAnswers = answers.map((answer: any) => {
+        dispatch(setAnswers([...answers, answer]))
+        const userAnswers = [...answers, answer].map((answer: any) => {
             const testRealAnswer = tests.find((test: any) => test.id === answer.id);
             return {
                 ...answer,
@@ -65,8 +75,37 @@ const TestTopicPage = ({db}) => {
                 countRightAnswers++;
             }
         })
-        addCompletedTests(userAnswers, countRightAnswers)
-    }, [answer])
+        addCompletedTests(userAnswers, countRightAnswers);
+        CompletedWorks(userAnswers, countRightAnswers);
+        dispatch(completeTest({results: userAnswers, countRightAnswers}));
+        // onCloseTest()
+    }, [answers, tests, answer])
+
+
+    async function CompletedWorks(userAnswer, countRightAnswers) {
+        const myProgressRef = doc(db, 'CompletedSubjects', user.uid);
+        const myProgressObject = await getDoc(myProgressRef);
+        let isCompletedTest = myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link]?.test?.isTest
+        if(!isCompletedTest) {
+            await updateDoc(myProgressRef, {
+                ...myProgressObject.data(),
+                [`${subject.topics_link}`]: {
+                    ...myProgressObject.data()[subject.topics_link],
+                    [`${topic?.grade}`]: {
+                        ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`],
+                        [`${topic?.topic_link}`]: {
+                            ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link],
+                            test: {
+                                isTest: countRightAnswers === userAnswer.length ? true : false,
+                                date: moment(new Date()).toString()
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        toast.success('Записав твої результати')
+    }
 
 
     const addCompletedTests = async (answers: any, countRightAnswers: any) => {
@@ -145,6 +184,24 @@ const TestTopicPage = ({db}) => {
                         {currentTest > 0 ? <div className='TestCard--buttonWrapper--backArrow' onClick={onPreviousStep}><img src={process.env.PUBLIC_URL + '/images/BackArrow.svg'}/></div> : null}
                         {currentTest < tests?.length-1 ? <div className='TestCard--buttonWrapper--nextArrow' onClick={onNextStep}><img src={process.env.PUBLIC_URL + '/images/NextArrow.svg'}/></div> : null}
                     </div>
+                </div>
+            ) : isResultTest ? (
+                <div className='ResultCard'>
+                    <h1 className='ResultCard--title'>Результати тесту:</h1>
+                    {/*<p className='ResultCard--subtitle'>{`This test will take: ${testsFromDB?.length} tasks`}</p>*/}
+                    <div className='ResultCard--result-wrapper'>
+                        {result?.results?.map((res: any) => (
+                            <div className='result-row'>
+                                <p className='result-row--title'>{res.question}</p>
+                                <div className='result-row--results-wrapper'>
+                                    {res.answers.map(answer => <div className='result-row--results-wrapper--item'><div className={res.isCorrectAnswer && res.answer === answer ? 'correct-answer' : !res.isCorrectAnswer && res.answer === answer ? 'not-correct-answer' : ''}></div><p>{answer}</p></div>)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button className='ResultCard--button' type='button' onClick={onCloseTest}>
+                        Закрити результати
+                    </button>
                 </div>
             ) : (
                 <>

@@ -15,6 +15,7 @@ import {useDispatch} from "react-redux";
 import {setUser} from "../../store/actions/auth";
 import {query, collectionGroup, getDocs} from "firebase/firestore";
 import { getBlob, getDownloadURL, ref} from 'firebase/storage';
+import {toast} from "react-toastify";
 
 
 type IProps = {
@@ -82,11 +83,13 @@ const LoginPage: FunctionComponent<IProps> = ({role, auth, db, storage}:IProps) 
         onSubmit: (values) => {
             signInWithEmailAndPassword(auth, values.email, values.password)
                 .then((userCredential) => {
+                    toast.success('Вітаю! Ти успішно увійшов в систему')
                     console.log('userCredential', userCredential)
                     GetUserDataInDB(userCredential?.user?.uid)
                     navigate(pathes.home)
                 })
                 .catch((error) => {
+                    toast.error('Введенні дані не вірні')
                     const errorCode = error.code;
                     const errorMessage = error.message;
                 });

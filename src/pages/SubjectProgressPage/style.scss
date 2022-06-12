@@ -35,6 +35,9 @@
       line-height: 33px;
       color: #1D1D1D;
       margin-left: 50px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      margin-bottom: 15px;
     }
   }
 }
@@ -113,6 +116,8 @@
   &--body {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    max-height: 160px;
 
     &--row {
       width: 100%;
@@ -123,6 +128,7 @@
       height: 40px;
       transition: 300ms;
       border: none;
+      min-height: 40px;
 
       &:last-child {
         border-radius: 0 0 10px 10px;
@@ -131,12 +137,26 @@
       &:hover {
         background-color: #F15BB5;
       }
-      div {
+
+      &--item {
         width: 100%;
         display: flex;
         justify-content: center;
-
       }
     }
+  }
+}
+
+.progress {
+  width: 80%;
+  border-radius: 8px;
+  background: #EBEAE3;
+  &--indicate {
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Geometria';
+    font-style: normal;
+    font-weight: 400;
   }
 }

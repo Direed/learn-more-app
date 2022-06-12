@@ -4,4 +4,5 @@ export default {
     START_TEST: 'START_TEST',
     COMPLETE_TEST: 'COMPLETE_TEST',
     CLOSE_TEST: 'CLOSE_TEST',
+    CLEAR_TOPIC: 'CLEAR_TOPIC',
 }

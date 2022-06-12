@@ -2,13 +2,18 @@ import React, {useEffect, useMemo, useState} from 'react';
 
 import './style.scss';
 
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { getSubjectProgress } from '../../store/selectors/progress';
 import Chart from "../../components/Chart";
 import {collectionGroup, doc, getDoc, getDocs, query} from "firebase/firestore";
 import { getUser } from '../../store/selectors/auth';
+import {setTopicProgress} from "../../store/actions/progress";
+import {useNavigate} from "react-router-dom";
+import pathes from "../../routes/pathes";
 
 const SubjectProgressPage = ({db}) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const user = useSelector(getUser)
     const subject = useSelector(getSubjectProgress)
     const [topics, setTopics] = useState<any>(null)
@@ -42,12 +47,12 @@ const SubjectProgressPage = ({db}) => {
         let dataWithMyProgress = data?.topics?.map((dataItem: any) => {
             if(myProgress && myProgress[subject.topics_link][`${subject.topics_link}_grade${grade}`][dataItem.topic_link]) {
                 let progress = myProgress[subject.topics_link][`${subject.topics_link}_grade${grade}`][dataItem.topic_link];
-                if(progress.video?.isVideo && progress.text?.isText && progress.test?.isTest) return { ...dataItem, percent: '100,00%', completed_works: 3, works: 3}
-                if((progress.video?.isVideo && progress.text?.isText) || (progress.video?.isVideo && progress.test?.isTest) || (progress.text?.isText && progress.test?.isTest)) return { ...dataItem, percent: '66,66%', completed_works: 2, works: 3}
-                if(progress.video?.isVideo || progress.text?.isText || progress.test?.isTest) return { ...dataItem, percent: '33,33%', completed_works: 1, works: 3}
-                return { ...dataItem, percent: '0%', completed_works: 0, works: 3 }
+                if(progress.video?.isVideo && progress.text?.isText && progress.test?.isTest) return { ...dataItem, percent: '100,00%', completed_works: 3, works: 3, progress}
+                if((progress.video?.isVideo && progress.text?.isText) || (progress.video?.isVideo && progress.test?.isTest) || (progress.text?.isText && progress.test?.isTest)) return { ...dataItem, percent: '66,66%', completed_works: 2, works: 3, progress}
+                if(progress.video?.isVideo || progress.text?.isText || progress.test?.isTest) return { ...dataItem, percent: '33,33%', completed_works: 1, works: 3, progress}
+                return { ...dataItem, percent: '0%', completed_works: 0, works: 3, progress}
             }
-            return dataItem;
+            return { ...dataItem, percent: '0%', completed_works: 0, works: 3 };
         })
         return {...data, topics: dataWithMyProgress};
     }, [topics, myProgress, subject])
@@ -78,10 +83,15 @@ const SubjectProgressPage = ({db}) => {
                             {headers.map((header) => <div>{header}</div>)}
                         </div>
                         <div className='subject-progress-list--body'>
-                            {topicsWithGrade?.topics?.map((topic: any) => <div className='subject-progress-list--body--row'>
-                                <div>{subject.title}</div>
-                                <div>{topic.title}</div>
-                                <div>{topic.title}</div>
+                            {topicsWithGrade?.topics?.map((topicItem: any) => <div className='subject-progress-list--body--row' onClick={() => {
+                                dispatch(setTopicProgress(topicItem))
+                                navigate(pathes.topicProgress)
+                            }}>
+                                <div className='subject-progress-list--body--row--item'>{subject.title}</div>
+                                <div className='subject-progress-list--body--row--item'>{topicItem.title}</div>
+                                <div className='subject-progress-list--body--row--item'>
+                                    <div className='progress'><div className='progress--indicate' style={{width: `${ topicItem.completed_works ? (topicItem.completed_works * 100/topicItem.works) : 100}%`, color: topicItem.completed_works ? 'white' : 'black', backgroundColor: topicItem.completed_works && '#8D5CF6'}}>{topicItem.percent}</div></div>
+                                </div>
                             </div>)}
                         </div>
                     </div>

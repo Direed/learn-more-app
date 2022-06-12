@@ -29,7 +29,7 @@ const Header: React.FC<IProps> = ({title, user, countAlerts = 0, isOpenMenu, set
                 </div>
                 <div className='Header__userWrapper__user'>
                     <div className='Header__userWrapper__user--userName'>{`${user?.first_name} ${user?.last_name ? user?.last_name : ''}`}</div>
-                    <img className='Header__userWrapper__user--userIcon' src={user?.photo}></img>
+                    { user?.photo ? <img className='Header__userWrapper__user--userIcon' src={user?.photo}></img> : <div className='Header__userWrapper__user--userIcon'><h1 style={{color: '#FFFFFF'}}>{user.first_name[0]}</h1></div>}
                 </div>
             </div>
         </div>

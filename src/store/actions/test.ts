@@ -10,8 +10,9 @@ export const startTest = (tests: any) => ({
     payload: tests,
 })
 
-export const completeTest = () => ({
+export const completeTest = (payload: any) => ({
     type: testConstants.COMPLETE_TEST,
+    payload: payload,
 })
 
 export const closeTest = () => ({
@@ -21,4 +22,8 @@ export const closeTest = () => ({
 export const setCurrentTest = (currentTest: any) => ({
     type: testConstants.SET_CURRENT_TEST,
     payload: currentTest,
+})
+
+export const clearTopic = () => ({
+    type: testConstants.CLEAR_TOPIC,
 })

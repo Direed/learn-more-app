@@ -1,12 +1,13 @@
 import React, {ReactChildren, ReactElement, useCallback, useState} from 'react'
 import Header from "../components/Header";
 import SideBar from "../components/SideBar";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../store/selectors/auth";
 
 import './style.scss'
 import {useNavigate} from "react-router-dom";
 import pathes from "../routes/pathes";
+import {clearTopic} from "../store/actions/test";
 
 type IProps = {
     children: ReactElement
@@ -17,9 +18,11 @@ type IProps = {
 
 const Wrapper: React.FC<IProps> = ({children, isTopic = false, background, color}: IProps) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const user = useSelector(getUser)
     const [isOpenMenu, setIsOpenMenu] = useState(false)
     const onBackToTopics = useCallback(() => {
+        dispatch(clearTopic())
         navigate(pathes.topics)
     }, [])
     return (

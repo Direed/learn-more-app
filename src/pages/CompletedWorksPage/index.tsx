@@ -5,12 +5,14 @@ import {collectionGroup, getDocs, query} from "firebase/firestore";
 import {useSelector} from "react-redux";
 import {getUser} from "../../store/selectors/auth";
 import {TextField} from "@mui/material";
+import moment from "moment";
 
 const CompletedWorksPage = ({db}: any) => {
     const user = useSelector(getUser);
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState<any>('All')
     const [completedTests, setCompletedTests] = useState<any>(null)
+    const headers = ['Предмет', "Тема", "Дата", "Правильних відповідей", "Прогресс"]
 
     useEffect(() => {
         fetchData()
@@ -31,7 +33,7 @@ const CompletedWorksPage = ({db}: any) => {
 
     const completedTestsWithFilters = useMemo(() => {
         let newData = completedTests?.map((item) => {
-            if(item.topic.includes(search)) {
+            if(item?.topic?.includes(search)) {
                 return item;
             }
         })
@@ -56,7 +58,6 @@ const CompletedWorksPage = ({db}: any) => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    <button>Done</button>
                 </div>
                 <div className='table-wrapper'>
                     <h1 className='table-wrapper--title'>Completed tests</h1>
@@ -66,21 +67,25 @@ const CompletedWorksPage = ({db}: any) => {
                         <div className={`${filter === 'Unsuccessful' ? 'active' : ''}`} onClick={() => setFilter('Unsuccessful')}>Unsuccessful</div>
                     </div>
                     { completedTestsWithFilters?.length && completedTestsWithFilters[0] ? <div className='table'>
-                        {completedTestsWithFilters?.map((completedTest) => (
-                            <div className='row'>
-                                <div><p>{completedTest?.subject}</p></div>
-                                <div><p>{completedTest?.topic}</p></div>
-                                <div className={'progress-wrapper'}>
-                                    <div className={'progress-bar'}>
-                                        <div
-                                            style={{width: `${(completedTest?.count_right_answers * 100) / completedTest?.count_tests}%`}}></div>
+                        <div className='subject-progress-list--header'>
+                            {headers.map((header) => <div>{header}</div>)}
+                        </div>
+                        <div className='subject-progress-list--body'>
+                            {completedTestsWithFilters?.map((topicItem: any) => <div className='subject-progress-list--body--row'>
+                                <div className='subject-progress-list--body--row--item'>{topicItem.title}</div>
+                                <div className='subject-progress-list--body--row--item'>{moment(topicItem.date).format("DD.MM.YYYY")}</div>
+                                <div className='subject-progress-list--body--row--item'>{`${topicItem.count_right_answers} з ${topicItem.count_tests}`}</div>
+                                <div className='subject-progress-list--body--row--item'>
+                                    <div className='progress'>
+                                        <div className='progress--indicate' style={{width: `${ topicItem.count_right_answers ? (topicItem.count_right_answers * 100/topicItem.count_tests) : 100}%`, color: topicItem.count_right_answers ? 'white' : 'black', backgroundColor: topicItem.count_right_answers && '#8D5CF6'}}>
+                                            {`${((topicItem.count_right_answers * 100)/topicItem.count_tests).toFixed(2)}%`}
+                                        </div>
                                     </div>
-                                    <p>{`${((completedTest?.count_right_answers * 100) / completedTest?.count_tests).toFixed(0)}%`}</p>
                                 </div>
-                            </div>
-                        ))}
+                            </div>)}
+                        </div>
                     </div> : (
-                        <div>Not results</div>
+                        <div className={'not-result'}><h1>Пройдених тесті поки що немає</h1></div>
                     )}
                 </div>
             </div>

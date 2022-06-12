@@ -13,6 +13,7 @@ export default {
     },
     progress: '/progress',
     subjectProgress: '/progress/subject',
+    topicProgress: '/progress/subject/topic',
     completedWorks: '/completed-works'
 }
 

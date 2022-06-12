@@ -9,6 +9,7 @@ import {setMainBgColor} from "../../../store/actions/auth";
 import {collectionGroup, doc, getDoc, getDocs, query, updateDoc} from "firebase/firestore";
 import {getUser} from "../../../store/selectors/auth";
 import {getSubject} from "../../../store/selectors/subject";
+import moment from "moment";
 
 const VideoTopicPage = ({db}) => {
     const dispatch = useDispatch()
@@ -34,10 +35,17 @@ const VideoTopicPage = ({db}) => {
         const myProgressRef = doc(db, 'CompletedSubjects', user.uid);
         const myProgressObject = await getDoc(myProgressRef);
         await updateDoc(myProgressRef, {
+            ...myProgressObject.data(),
             [`${subject.topics_link}`]: {
+                ...myProgressObject.data()[subject.topics_link],
                 [`${topic?.grade}`]: {
+                    ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`],
                     [`${topic?.topic_link}`]: {
-                        video: true,
+                        ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link],
+                        video: {
+                            isVideo: true,
+                            date: moment(new Date()).toString()
+                        }
                     }
                 }
             }

@@ -21,6 +21,10 @@ import TestTopicPage from "./pages/Topic/TestTopicPage";
 import ProgressPage from "./pages/ProgressPage";
 import CompletedWorksPage from "./pages/CompletedWorksPage";
 import SubjectProgressPage from "./pages/SubjectProgressPage";
+import TopicProgressPage from "./pages/TopicProgressPage";
+
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const firebaseConfig = {
     apiKey: process.env["REACT_APP_FIREBASE_API_KEY"],
@@ -42,6 +46,7 @@ const storage = getStorage(app);
 function App<FunctionComponent>() {
     const [role, setRole] = useState<IRole>(IRole.student)
   return (
+      <>
       <Router>
           <Routes>
               <Route path='/' element={<IntroducePage setRole={setRole}/>}/>
@@ -53,6 +58,7 @@ function App<FunctionComponent>() {
               <Route path={pathNames.completedWorks} element={<Wrapper background={'#8D5CF6'}><CompletedWorksPage db={db} /></Wrapper>} />
               <Route path={pathNames.progress} element={<Wrapper background={'#8D5CF6'}><ProgressPage db={db} /></Wrapper>} />
               <Route path={pathNames.subjectProgress} element={<Wrapper background={'#8D5CF6'}><SubjectProgressPage db={db} /></Wrapper>} />
+              <Route path={pathNames.topicProgress} element={<Wrapper background={'#8D5CF6'}><TopicProgressPage db={db} /></Wrapper>} />
               <Route path={pathNames.topic.home}>
                   <Route path={pathNames.topic.video} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><VideoTopicPage db={db} /></Wrapper>} />
                   <Route path={pathNames.topic.text} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><TextTopicPage db={db} /></Wrapper>} />
@@ -62,6 +68,8 @@ function App<FunctionComponent>() {
               </Route>
           </Routes>
       </Router>
+          <ToastContainer position={'top-right'} />
+          </>
   );
 }
 

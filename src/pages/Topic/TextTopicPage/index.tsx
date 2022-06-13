@@ -40,7 +40,7 @@ const TextTopicPage = ({db}) => {
         <div className='TextTopicPage'>
             <h1 className='TextTopicPage--title'>{topic.title}</h1>
             <p className='TextTopicPage--text'>{topic?.text}</p>
-            <button className='TextTopicPage--button' type={"button"} onClick={onDone}>Done</button>
+            <button className='TextTopicPage--button' type={"button"} onClick={onDone}>Виконано</button>
         </div>
     )
 }

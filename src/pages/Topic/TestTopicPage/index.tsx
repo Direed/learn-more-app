@@ -205,11 +205,9 @@ const TestTopicPage = ({db}) => {
                 </div>
             ) : (
                 <>
-                    <h1 className='TestTopicPage--title'>Test your knowledge</h1>
+                    <h1 className='TestTopicPage--title'>Перевірте свої знання</h1>
                     <p className='TestTopicPage--subtitle'>{`This test will take: ${testsFromDB?.length} tasks`}</p>
-                    <button className='TestTopicPage--button' type='button' onClick={onStartTest}>
-                    Start test
-                    </button>
+                    <button className='TestTopicPage--button' type='button' onClick={onStartTest}>Почати</button>
                 </>
                 )}
         </div>

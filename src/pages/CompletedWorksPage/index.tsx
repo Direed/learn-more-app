@@ -60,11 +60,11 @@ const CompletedWorksPage = ({db}: any) => {
                     />
                 </div>
                 <div className='table-wrapper'>
-                    <h1 className='table-wrapper--title'>Completed tests</h1>
+                    <h1 className='table-wrapper--title'>Пройдені тести</h1>
                     <div className='filters-wrapper'>
-                        <div className={`${filter === 'All' ? 'active' : ''}`} onClick={() => setFilter('All')}>All</div>
-                        <div className={`${filter === 'Successful' ? 'active' : ''}`} onClick={() => setFilter('Successful')}>Successful</div>
-                        <div className={`${filter === 'Unsuccessful' ? 'active' : ''}`} onClick={() => setFilter('Unsuccessful')}>Unsuccessful</div>
+                        <div className={`${filter === 'All' ? 'active' : ''}`} onClick={() => setFilter('All')}>Всі</div>
+                        <div className={`${filter === 'Successful' ? 'active' : ''}`} onClick={() => setFilter('Successful')}>Успішні</div>
+                        <div className={`${filter === 'Unsuccessful' ? 'active' : ''}`} onClick={() => setFilter('Unsuccessful')}>Не успішні</div>
                     </div>
                     { completedTestsWithFilters?.length && completedTestsWithFilters[0] ? <div className='table'>
                         <div className='subject-progress-list--header'>
@@ -85,7 +85,7 @@ const CompletedWorksPage = ({db}: any) => {
                             </div>)}
                         </div>
                     </div> : (
-                        <div className={'not-result'}><h1>Пройдених тесті поки що немає</h1></div>
+                        <div className={'not-result'}><h1>Пройдених тестів поки що немає</h1></div>
                     )}
                 </div>
             </div>

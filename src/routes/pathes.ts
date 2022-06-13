@@ -1,4 +1,5 @@
 export default {
+    main: '/',
     login: '/login',
     register: '/register',
     home: '/home',
@@ -14,6 +15,8 @@ export default {
     progress: '/progress',
     subjectProgress: '/progress/subject',
     topicProgress: '/progress/subject/topic',
-    completedWorks: '/completed-works'
+    completedWorks: '/completed-works',
+    settings: '/settings',
+    support: '/support',
 }
 

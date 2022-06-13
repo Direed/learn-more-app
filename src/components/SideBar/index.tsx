@@ -19,44 +19,44 @@ const SideBar = ({isTopic, background, color}: any) => {
         if(isTopic) {
             return [
                 {
-                    title: 'Video',
+                    title: 'Відео',
                     img: process.env.PUBLIC_URL + '/images/VideoIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.video,
                     handleClick: () => {
                         navigate(pathes.topic.video)
-                        dispatch(setActiveRoute('Video'))
+                        dispatch(setActiveRoute('Відео'))
                     }
                 },
                 {
-                    title: 'Text',
+                    title: 'Текст',
                     img: process.env.PUBLIC_URL + '/images/TextIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.text,
                     handleClick: () => {
                         navigate(pathes.topic.text)
-                        dispatch(setActiveRoute('Text'))
+                        dispatch(setActiveRoute('Текст'))
                     }
 
                 },
                 {
-                    title: 'Homework',
+                    title: 'Домашня робота',
                     img: process.env.PUBLIC_URL + '/images/HomeworkIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.homework,
                     handleClick: () => {
                         navigate(pathes.topic.homework)
-                        dispatch(setActiveRoute('Homework'))
+                        dispatch(setActiveRoute('Домашня робота'))
                     }
                 },
                 {
-                    title: 'Test',
+                    title: 'Тест',
                     img: process.env.PUBLIC_URL + '/images/TestIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.test,
                     handleClick: () => {
                         navigate(pathes.topic.test)
-                        dispatch(setActiveRoute('Test'))
+                        dispatch(setActiveRoute('Тест'))
                     }
                 },
             ]
@@ -64,63 +64,73 @@ const SideBar = ({isTopic, background, color}: any) => {
 
         return [
             {
-                title: 'Home',
+                title: 'Головна',
                 img: process.env.PUBLIC_URL + '/images/home.svg',
                 bgColor: '#2a2828',
                 to: pathes.home,
                 handleClick: () => {
                     navigate(pathes.home)
-                    dispatch(setActiveRoute('Home'))
+                    dispatch(setActiveRoute('Головна'))
                 }
             },
             {
-                title: 'Subjects',
+                title: 'Предмети',
                 img: process.env.PUBLIC_URL + '/images/Subjects.svg',
                 bgColor: '#2a2828',
                 to: pathes.subjects,
                 handleClick: () => {
                     navigate(pathes.subjects)
-                    dispatch(setActiveRoute('Subjects'))
+                    dispatch(setActiveRoute('Предмети'))
                 }
 
             },
             {
-                title: 'Completed works',
+                title: 'Пройдені тести',
                 img: process.env.PUBLIC_URL + '/images/completed_works.svg',
                 bgColor: '#2a2828',
                 to: pathes.completedWorks,
                 handleClick: () => {
                     navigate(pathes.home)
-                    dispatch(setActiveRoute('Completed works'))
+                    dispatch(setActiveRoute('Пройдені тести'))
                 }
             },
             {
-                title: 'Progress',
+                title: 'Прогрес',
                 img: process.env.PUBLIC_URL + '/images/Progress.svg',
                 bgColor: '#2a2828',
                 to: pathes.progress,
                 handleClick: () => {
                     navigate(pathes.home)
-                    dispatch(setActiveRoute('Progress'))
+                    dispatch(setActiveRoute('Прогрес'))
                 }
             },
             {
-                title: 'Settings',
+                title: 'Налаштування',
                 img: process.env.PUBLIC_URL + '/images/Settings.svg',
                 bgColor: '#2a2828',
-                to: pathes.topic.home,
+                to: pathes.settings,
                 handleClick: () => {
                     navigate(pathes.home)
-                    dispatch(setActiveRoute('Completed works'))
+                    dispatch(setActiveRoute('Налаштування'))
                 }
             },
             {
-                title: 'Support',
+                title: 'Підтримка',
                 img: process.env.PUBLIC_URL + '/images/Support.svg',
+                bgColor: '#2a2828',
+                to: pathes.support,
+                handleClick: () => {
+                    navigate(pathes.home)
+                    dispatch(setActiveRoute('Підтримка'))
+                }
+            },
+            {
+                title: 'Вихід',
+                img: process.env.PUBLIC_URL + '/images/logout.svg',
                 bgColor: '#2a2828',
                 to: pathes.topic.home,
                 handleClick: () => {
-                    navigate(pathes.home)
+                    navigate(pathes.main)
                     dispatch(setActiveRoute('Completed works'))
                 }
             },
@@ -129,7 +139,7 @@ const SideBar = ({isTopic, background, color}: any) => {
 
     return (
         <div className='SideBar'>
-            {isTopic ? <h1 className='SideBar--title'>Lesson materials</h1> : null}
+            {isTopic ? <h1 className='SideBar--title'>Матеріали уроку</h1> : null}
             {routes.map((route) => {
                 return (
                     <NavLink

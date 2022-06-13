@@ -12,8 +12,6 @@ type IProps = {
 
 
 const Header: React.FC<IProps> = ({title, user, countAlerts = 0, isOpenMenu, setIsOpenMenu}: IProps) => {
-    console.log('proccess', process.env)
-    console.log(user?.photo, 'photo')
     return (
         <div className='Header'>
             <div className='Header__menu' onClick={() => {
@@ -29,11 +27,11 @@ const Header: React.FC<IProps> = ({title, user, countAlerts = 0, isOpenMenu, set
                 </div>
                 <div className='Header__userWrapper__user'>
                     <div className='Header__userWrapper__user--userName'>{`${user?.first_name} ${user?.last_name ? user?.last_name : ''}`}</div>
-                    { user?.photo ? <img className='Header__userWrapper__user--userIcon' src={user?.photo}></img> : <div className='Header__userWrapper__user--userIcon'><h1 style={{color: '#FFFFFF'}}>{user.first_name[0]}</h1></div>}
+                    { user && user?.photo ? <img className='Header__userWrapper__user--userIcon' src={user?.photo}></img> : <div className='Header__userWrapper__user--userIcon'><h1 style={{color: '#FFFFFF'}}>{user?.first_name?.length && user?.first_name[0]}</h1></div>}
                 </div>
             </div>
         </div>
     )
 }
 
-export default Header;
+export default React.memo(Header);

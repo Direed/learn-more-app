@@ -39,6 +39,7 @@
     font-size: 26px;
     line-height: 33px;
     color: #242424;
+    margin: 10px 0 10px 0;
   }
 
   &--description {
@@ -48,6 +49,7 @@
     font-size: 14px;
     line-height: 21px;
     color: #242424;
+    margin: 10px 0 10px 0;
   }
 
   &--phrase {
@@ -56,8 +58,12 @@
     font-weight: 300;
     font-size: 13px;
     line-height: 16px;
-
     color: #242424;
+    margin: 10px 0 10px 0;
+  }
+
+  &--button {
+    min-height: 35px;
   }
 
 }

@@ -60,16 +60,17 @@ const LoginPage: FunctionComponent<IProps> = ({role, auth, db, storage}:IProps) 
     const GetUserDataInDB = useCallback( async (userUID: any) => {
         const users = query(collectionGroup(db, 'Users'))
         const querySnapshot = await getDocs(users);
-        const avatarRef = ref(storage, `User's avatar/${userUID}.jpg`)
-        const avatar = await getDownloadURL(avatarRef)
         querySnapshot.docs.forEach((user) => {
             let user_data: any = user.data()
             if(user_data?.uid === userUID) {
-                dispatch(setUser({...user_data, photo: avatar}))
+                dispatch(setUser({...user_data}))
             }
         })
-        console.log(querySnapshot, 'users in querySnapshot')
     }, [])
+
+    // const avatarRef = ref(storage, `User's avatar/${userUID}.jpg`)
+    // const avatar = await getDownloadURL(avatarRef)
+    // dispatch(setUser({...user_data, photo: avatar}))
 
     const formik = useFormik<ILogin>({
         initialValues: {

@@ -67,7 +67,7 @@ const VideoTopicPage = ({db}) => {
                 iframeClassName='VideoIframe'
                 className='VideoWrapper'
             />
-            <button className='VideoTopicPage--button' type={"button"} onClick={CompletedWorks}>Done</button>
+            <button className='VideoTopicPage--button' type={"button"} onClick={CompletedWorks}>Виконано</button>
         </div>
     )
 }

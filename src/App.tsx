@@ -25,6 +25,7 @@ import TopicProgressPage from "./pages/TopicProgressPage";
 
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import SettingsPage from "./pages/SettingsPage";
 
 const firebaseConfig = {
     apiKey: process.env["REACT_APP_FIREBASE_API_KEY"],
@@ -59,6 +60,8 @@ function App<FunctionComponent>() {
               <Route path={pathNames.progress} element={<Wrapper background={'#8D5CF6'}><ProgressPage db={db} /></Wrapper>} />
               <Route path={pathNames.subjectProgress} element={<Wrapper background={'#8D5CF6'}><SubjectProgressPage db={db} /></Wrapper>} />
               <Route path={pathNames.topicProgress} element={<Wrapper background={'#8D5CF6'}><TopicProgressPage db={db} /></Wrapper>} />
+              <Route path={pathNames.settings} element={<Wrapper background={'#9B5DE5'}><SettingsPage bgcolor={'#9B5DE5'} /></Wrapper>} />
+              <Route path={pathNames.support} element={<Wrapper background={'#8D5CF6'}><SettingsPage bgcolor={'#8D5CF6'} /></Wrapper>} />
               <Route path={pathNames.topic.home}>
                   <Route path={pathNames.topic.video} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><VideoTopicPage db={db} /></Wrapper>} />
                   <Route path={pathNames.topic.text} element={<Wrapper background={'#E5E5E5'} color={'#000000'} isTopic><TextTopicPage db={db} /></Wrapper>} />

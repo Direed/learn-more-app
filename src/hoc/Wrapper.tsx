@@ -2,7 +2,7 @@ import React, {ReactChildren, ReactElement, useCallback, useState} from 'react'
 import Header from "../components/Header";
 import SideBar from "../components/SideBar";
 import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "../store/selectors/auth";
+import {getActiveRoute, getUser} from "../store/selectors/auth";
 
 import './style.scss'
 import {useNavigate} from "react-router-dom";
@@ -20,6 +20,7 @@ const Wrapper: React.FC<IProps> = ({children, isTopic = false, background, color
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(getUser)
+    const activeRoute = useSelector(getActiveRoute)
     const [isOpenMenu, setIsOpenMenu] = useState(false)
     const onBackToTopics = useCallback(() => {
         dispatch(clearTopic())
@@ -28,7 +29,7 @@ const Wrapper: React.FC<IProps> = ({children, isTopic = false, background, color
     return (
         <>
             <Header
-                title={'Home'}
+                title={activeRoute}
                 user={{first_name: user?.first_name, last_name: user?.last_name, photo: user?.photo}}
                 countAlerts={1}
                 isOpenMenu={isOpenMenu}
@@ -38,7 +39,7 @@ const Wrapper: React.FC<IProps> = ({children, isTopic = false, background, color
                 {isOpenMenu && <SideBar isTopic={isTopic} background={background} color={color}/>}
                 {children}
             </div>
-            {isTopic ? <button className={`BackButton ${!isOpenMenu && 'disableSideBar'}`} onClick={onBackToTopics}>Back to topics</button> : null}
+            {isTopic ? <button className={`BackButton ${!isOpenMenu && 'disableSideBar'}`} onClick={onBackToTopics}>Повернутись до тем</button> : null}
         </>
     )
 

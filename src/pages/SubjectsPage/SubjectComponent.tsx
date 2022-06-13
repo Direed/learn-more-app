@@ -10,8 +10,8 @@ const SubjectComponent = ({title, description, phrase, handleClick, isHiden}: an
                 <p className='subjectComponent--phrase'>{phrase}</p>
             </div>
             <Button
-                className={``}
-                text={'Take the test'}
+                className={`subjectComponent--button`}
+                text={'Вибрати'}
                 color={IColor.purple}
                 handleClick={handleClick}
             />

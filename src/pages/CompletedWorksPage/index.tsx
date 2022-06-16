@@ -17,6 +17,7 @@ const CompletedWorksPage = ({db}: any) => {
     useEffect(() => {
         fetchData()
     }, [])
+
     async function fetchData () {
         const testTopic = query(collectionGroup(db, 'CompletedTests'))
         const querySnapshot = await getDocs(testTopic);
@@ -26,10 +27,8 @@ const CompletedWorksPage = ({db}: any) => {
                 return data;
             }
         })
-        console.log(newData, 'completed tests')
         setCompletedTests([...userCompletedTests])
     }
-
 
     const completedTestsWithFilters = useMemo(() => {
         let newData = completedTests?.map((item) => {
@@ -37,7 +36,7 @@ const CompletedWorksPage = ({db}: any) => {
                 return item;
             }
         })
-        let newDataWithFilters = newData?.map((item) => {
+        let newDataWithFilters = newData?.filter((item) => {
             if(filter === 'All') return item;
             if(filter === 'Successful' && (item?.count_right_answers * 100)/item?.count_tests === 100) return item;
             if(filter === 'Unsuccessful' && (item?.count_right_answers * 100)/item?.count_tests < 100) return item;
@@ -45,15 +44,13 @@ const CompletedWorksPage = ({db}: any) => {
         return newDataWithFilters;
     }, [completedTests, filter, search])
 
-    console.log(completedTestsWithFilters)
-
     return (
         <div className='completed-works-page'>
             <div className='completed-works-wrapper'>
                 <div className='search-wrapper'>
                     <TextField
                         className='search-wrapper--input'
-                        placeholder={'Search test'}
+                        placeholder={'Пошук тесту за темою'}
                         type={"text"}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -66,13 +63,14 @@ const CompletedWorksPage = ({db}: any) => {
                         <div className={`${filter === 'Successful' ? 'active' : ''}`} onClick={() => setFilter('Successful')}>Успішні</div>
                         <div className={`${filter === 'Unsuccessful' ? 'active' : ''}`} onClick={() => setFilter('Unsuccessful')}>Не успішні</div>
                     </div>
-                    { completedTestsWithFilters?.length && completedTestsWithFilters[0] ? <div className='table'>
+                    { completedTestsWithFilters?.length && completedTestsWithFilters[0] ? <div className='subject-progress-list'>
                         <div className='subject-progress-list--header'>
                             {headers.map((header) => <div>{header}</div>)}
                         </div>
                         <div className='subject-progress-list--body'>
                             {completedTestsWithFilters?.map((topicItem: any) => <div className='subject-progress-list--body--row'>
-                                <div className='subject-progress-list--body--row--item'>{topicItem.title}</div>
+                                <div className='subject-progress-list--body--row--item'>{topicItem?.subject_title}</div>
+                                <div className='subject-progress-list--body--row--item'>{topicItem?.topic_title?.length > 21 ? `${topicItem?.topic_title?.slice(0, 20)}...` : topicItem?.topic_title}</div>
                                 <div className='subject-progress-list--body--row--item'>{moment(topicItem.date).format("DD.MM.YYYY")}</div>
                                 <div className='subject-progress-list--body--row--item'>{`${topicItem.count_right_answers} з ${topicItem.count_tests}`}</div>
                                 <div className='subject-progress-list--body--row--item'>

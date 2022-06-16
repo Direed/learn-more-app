@@ -1,26 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import ProgressesComponent from "./ProgressesComponent";
 import {collection, collectionGroup, doc, getDoc, getDocs, query} from "firebase/firestore";
 
 import './style.scss'
-import set = Reflect.set;
 import {useSelector} from "react-redux";
 import {getUser} from "../../store/selectors/auth";
 
 const ProgressPage = ({db}: any) => {
     const user = useSelector(getUser)
     const [subjects, setSubjects] = useState<any>(null)
-    const [subjectsFullObjects, setSubjectsFullObjects] = useState<any>(null)
-    console.log(subjects)
+    const [subjectsFullObjects, setSubjectsFullObjects] = useState<any>([])
+    const [progressObject, setProgressObject] = useState<any>(null)
 
     async function fetchData () {
         const querySnapshot = await getDocs(collection(db, 'Subjects'));
-        console.log(' querySnapshot after request', querySnapshot)
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-            console.log('doc', doc)
-            console.log('doc.data()', doc.data())
-        });
         let newData = querySnapshot.docs.map(doc => doc.data())
         setSubjects([...newData])
     }
@@ -28,15 +21,15 @@ const ProgressPage = ({db}: any) => {
     async function fetchProgress () {
         const myProgressRef = doc(db, 'CompletedSubjects', user.uid);
         const myProgressObject = await getDoc(myProgressRef);
-        console.log(myProgressObject.data())
+        setProgressObject(myProgressObject.data())
     }
 
-    async function fetchLessons (subjectLink: any) {
-        const users = query(collectionGroup(db, subjectLink))
-        const querySnapshot = await getDocs(users);
-        let newData = querySnapshot.docs.map(doc => doc.data())
-        console.log(newData, 'newData')
-        let subjectsClone = subjects.map((subject) => {
+    async function fetchLessons (subjectLink: string){
+        const topics = query(collectionGroup(db, subjectLink))
+        const topicsSnapshot = await getDocs(topics);
+        let newData = topicsSnapshot.docs.map(doc => doc.data())
+        let subjectsClone = null;
+        subjects?.find((subject) => {
             if(subject?.topics_link === subjectLink) {
                 let lessons = newData?.reduce((topicsGradePrev, topicGradeCurrent) => {
                     if(topicsGradePrev?.topics?.length) {
@@ -44,20 +37,15 @@ const ProgressPage = ({db}: any) => {
                     }
                     return 0 + topicGradeCurrent?.topics?.length
                 }, 0)
-                return {
+                subjectsClone = {
                     ...subject,
                     lessons: lessons || 0,
                     hours: lessons * 8 || 0,
                     homeworks: lessons || 0,
-                }
+                };
             }
-            return {...subject,
-                lessons: 0,
-                hours: 0,
-                homeworks: 0,
-            };
         })
-        setSubjectsFullObjects([...subjectsClone])
+        setSubjectsFullObjects((prevState) => [...prevState, subjectsClone])
     }
 
     useEffect(() => {
@@ -74,9 +62,6 @@ const ProgressPage = ({db}: any) => {
             })
         }
     }, [subjects])
-
-    console.log(subjects)
-    console.log(subjectsFullObjects, 'subjectsFullObjects')
 
     return (
         <div className='progress-page'>

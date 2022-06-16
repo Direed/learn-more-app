@@ -8,7 +8,7 @@
 }
 
 .completed-works-wrapper {
-  max-width: 880px;
+  max-width: 1000px;
   width: 100%;
 }
 
@@ -39,6 +39,8 @@
   border-radius: 30px;
   display: flex;
   flex-direction: column;
+  max-height: 500px;
+  height: 100%;
 
   &--title {
     margin-left: 50px;
@@ -57,7 +59,7 @@
 .filters-wrapper {
   display: flex;
   justify-content: space-between;
-  margin: 0 50px;
+  margin: 0 50px 30px 50px;
 
   div {
     width: 199px;

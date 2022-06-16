@@ -13,6 +13,7 @@ type IProps = {
     name: string,
     id: string,
     placeholder?: string,
+    type?: string,
 }
 
 export enum IColor {
@@ -61,12 +62,12 @@ const useStyles = makeStyles({
 
 });
 
-const Input: React.FC<IProps> = ({className, color, label, value, handleChange, helperText, helperAction, name, id, placeholder}:IProps) => {
+const Input: React.FC<IProps> = ({className, color, label, value, handleChange, helperText, helperAction, name, id, placeholder, type}:IProps) => {
     const classes = useStyles()
     return (
         <div className={classNames(classes.root)}>
             <label className={classNames(classes.label, color === 'yellow' ? classes.textPurple : classes.textYellow)}>{label}</label>
-            <input className={classNames(classes.input, classes[color])} name={name} id={id} value={value} onChange={handleChange} placeholder={placeholder}/>
+            <input className={classNames(classes.input, classes[color])} name={name} id={id} value={value} onChange={handleChange} placeholder={placeholder} type={type ? type : 'text'}/>
             { helperText && (<label className={classNames(classes.helper, color === 'yellow' ? classes.textPurple : classes.textYellow)} onClick={helperAction}>{helperText}</label>)}
         </div>
     )

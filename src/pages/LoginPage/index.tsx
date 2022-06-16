@@ -100,30 +100,33 @@ const LoginPage: FunctionComponent<IProps> = ({role, auth, db, storage}:IProps) 
     console.log(formik)
     return (
         <div className={`${activeClass.className}`}>
-            <h1 className={`${activeClass.className}__title`}>Welcome</h1>
+            <h1 className={`${activeClass.className}__title`}>Ласкаво просимо</h1>
             <form className={`${activeClass.className}__form`}>
                 <Input
                     name='email'
                     id='email'
+                    type={'email'}
                     color={activeClass.inputColor}
-                    label={'Email'}
+                    label={'Електрона пошта'}
                     value={formik.values.email}
                     handleChange={formik.handleChange}
                 />
                 <Input
                     name='password'
                     id='password'
+                    type={'password'}
                     color={activeClass.inputColor}
-                    label={'Password'} value={formik.values.password}
+                    label={'Пароль'}
+                    value={formik.values.password}
                     handleChange={formik.handleChange}
-                    helperText={'Forget password ?'}
+                    helperText={'Забули пароль ?'}
                     helperAction={() => {}}/>
-                <Button className={`${activeClass.className}__form--button`} text={'Login'} color={activeClass.buttonColor} handleClick={formik.handleSubmit} />
+                <Button className={`${activeClass.className}__form--button`} text={'Увійти'} color={activeClass.buttonColor} handleClick={formik.handleSubmit} />
             </form>
             <img className={`${activeClass.className}__svg`} src={process.env.PUBLIC_URL+'/images/yellow_cat.svg'}/>
             <div className={`${activeClass.className}__footerTitle`}>
-                <p>Don’t have an account? </p>
-                <p className={`${activeClass.className}__footerTitle--route`} onClick={() => navigate(pageNames.register)}>Create</p>
+                <p>Немає облікового запису? </p>
+                <p className={`${activeClass.className}__footerTitle--route`} onClick={() => navigate(pageNames.register)}>Створити</p>
             </div>
         </div>
     )

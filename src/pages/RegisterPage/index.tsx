@@ -59,6 +59,7 @@ const RegisterPage: FunctionComponent<IProps> = ({role, auth, db}:IProps) => {
             email: user.email,
         };
         await setDoc(doc(db, "Users", user.uid), userData);
+        await setDoc(doc(db, 'CompletedSubjects', user.uid), {uid: user.uid})
         dispatch(setUser(userData))
     }, [])
 
@@ -94,49 +95,53 @@ const RegisterPage: FunctionComponent<IProps> = ({role, auth, db}:IProps) => {
 
     return (
         <div className={activeClass.className}>
-            <h1 className={`${activeClass.className}__title`}>Create Account</h1>
+            <h1 className={`${activeClass.className}__title`}>СТВОРИТИ ЗАПИС</h1>
             <form className={`${activeClass.className}__form`}>
                 <Input
                     id='userName'
                     name='userName'
-                    placeholder={'First name'}
+                    placeholder={'Ім\'я'}
                     color={activeClass.inputColor}
-                    label={'First name'}
+                    label={'Ім\'я'}
                     value={formik.values.userName}
                     handleChange={formik.handleChange}
                 />
                 <Input
                     id='email'
                     name='email'
-                    placeholder={'Email'}
+                    type={'email'}
+                    placeholder={'Електрона пошта'}
                     color={activeClass.inputColor}
-                    label={'Email'} value={formik.values.email}
+                    label={'Електрона пошта'}
+                    value={formik.values.email}
                     handleChange={formik?.handleChange}
                 />
                 <Input
                     id='password'
                     name='password'
-                    placeholder={'Password'}
+                    type={'password'}
+                    placeholder={'Пароль'}
                     color={activeClass.inputColor}
-                    label={'Password'}
+                    label={'Пароль'}
                     value={formik.values.password}
                     handleChange={formik.handleChange}
                 />
                 <Input
                     id='confirmPassword'
                     name='confirmPassword'
-                    placeholder={"Confirm password"}
+                    type={'password'}
+                    placeholder={"Підтвердьте пароль"}
                     color={activeClass.inputColor}
-                    label={'Confirm password'}
+                    label={'Підтвердьте пароль'}
                     value={formik.values.confirmPassword}
                     handleChange={formik.handleChange}
                 />
-                <Button className={`${activeClass.className}__form--button`} text={'Create'} color={activeClass.buttonColor} handleClick={formik.handleSubmit} />
+                <Button className={`${activeClass.className}__form--button`} text={'Створити'} color={activeClass.buttonColor} handleClick={formik.handleSubmit} />
             </form>
             <img className={`${activeClass.className}__svg`} src={process.env.PUBLIC_URL+'/images/yellow_cat.svg'}/>
             <div className={`${activeClass.className}__footerTitle`}>
-                <p>Already have an account? </p>
-                <p className={`${activeClass.className}__footerTitle--route`} onClick={() => navigate(pageNames.login)}>Login</p>
+                <p>Вже є аккаунт? </p>
+                <p className={`${activeClass.className}__footerTitle--route`} onClick={() => navigate(pageNames.login)}>Увійти</p>
             </div>
         </div>
     )

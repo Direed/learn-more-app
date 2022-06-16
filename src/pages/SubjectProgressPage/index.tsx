@@ -25,14 +25,6 @@ const SubjectProgressPage = ({db}) => {
         const subjectTopicsWithGradesRef = query(collectionGroup(db, subject.topics_link))
         const subjectTopicsWithGradesSnapshots = await getDocs(subjectTopicsWithGradesRef);
         let subjectTopicsWithGrades = subjectTopicsWithGradesSnapshots.docs.map(doc => doc.data())
-        // let SubjectTopics = subjectTopicsWithGrades?.topics.map((topicWithGrade: any, index: number) => {
-        //     return {
-        //         grade: topicWithGrade.grade,
-        //         grade_link: topicWithGrade.title,
-        //         topic: topicWithGrade.topics[index],
-        //     }
-        // })
-        console.log(subjectTopicsWithGrades, 'subjectTopicsWithGrades')
         setTopics([...subjectTopicsWithGrades])
     }
 
@@ -45,7 +37,7 @@ const SubjectProgressPage = ({db}) => {
     const topicsWithGrade = useMemo(() => {
         let data = topics?.find((topic: any) => topic.grade === grade)
         let dataWithMyProgress = data?.topics?.map((dataItem: any) => {
-            if(myProgress && myProgress[subject.topics_link][`${subject.topics_link}_grade${grade}`][dataItem.topic_link]) {
+            if(myProgress && myProgress[subject.topics_link]?.[`${subject.topics_link}_grade${grade}`]?.[dataItem.topic_link]) {
                 let progress = myProgress[subject.topics_link][`${subject.topics_link}_grade${grade}`][dataItem.topic_link];
                 if(progress.video?.isVideo && progress.text?.isText && progress.test?.isTest) return { ...dataItem, percent: '100,00%', completed_works: 3, works: 3, progress}
                 if((progress.video?.isVideo && progress.text?.isText) || (progress.video?.isVideo && progress.test?.isTest) || (progress.text?.isText && progress.test?.isTest)) return { ...dataItem, percent: '66,66%', completed_works: 2, works: 3, progress}
@@ -56,8 +48,6 @@ const SubjectProgressPage = ({db}) => {
         })
         return {...data, topics: dataWithMyProgress};
     }, [topics, myProgress, subject])
-
-    console.log(topicsWithGrade, 'topicsWithGrade')
 
     useEffect(() => {
         fetchData()
@@ -70,11 +60,14 @@ const SubjectProgressPage = ({db}) => {
                 <div className='subject-progress-wrapper--upper-side'>
                     <div className='subject-progress-information-wrapper'>
                         <h1>{subject.title}</h1>
-                        <div><img src={process.env.PUBLIC_URL+'/images/lessonsIcon.svg'}/><p>{`${subject.lessons} lessons`}</p></div>
-                        <div><img src={process.env.PUBLIC_URL+'/images/hoursIcon.svg'}/><p>{`${subject.hours} hours`}</p></div>
-                        <div><img src={process.env.PUBLIC_URL+'/images/homeworksIcon.svg'}/><p>{`${subject.homeworks} homeworks`}</p></div>
+                        <div><img src={process.env.PUBLIC_URL+'/images/lessonsIcon.svg'}/><p>{`${subject.lessons} ${subject?.lessons === 1 ? 'заняття' : subject?.lessons > 1 && subject?.lessons < 5 ? 'заняття' : 'занять'}`}</p></div>
+                        <div><img src={process.env.PUBLIC_URL+'/images/hoursIcon.svg'}/><p>{`${subject.hours} ${subject.hours === 1 ? 'година' : subject.hours%10 > 1 && subject.hours%10 < 5 ? 'години' : 'годин'}`}</p></div>
+                        <div><img src={process.env.PUBLIC_URL+'/images/homeworksIcon.svg'}/><p>{`${0} домашніх завданнь`}</p></div>
                     </div>
-                    <div className='subject-progress-chart-wrapper'><Chart/></div>
+                    <div className='subject-progress-chart-wrapper'>
+                        <img style={{transform: 'rotate(345deg)', marginRight: '10px'}} src={process.env.PUBLIC_URL+'/images/homeIllustrationIconThird.svg'} />
+                        <img style={{transform: 'rotate(15deg)', marginLeft: '10px'}} src={process.env.PUBLIC_URL+'/images/homeIllustrationIcon.svg'} />
+                    </div>
                 </div>
                 <div className='subject-progress-wrapper--down-side'>
                     <h1>Теми</h1>

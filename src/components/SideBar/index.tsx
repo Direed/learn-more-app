@@ -4,16 +4,13 @@ import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import './SideBar.scss'
 
 import pathes from "../../routes/pathes";
-import {useDispatch, useSelector} from "react-redux";
-import {getActiveRoute, getMainBgColor} from "../../store/selectors/auth";
+import {useDispatch} from "react-redux";
 import {setActiveRoute} from "../../store/actions/auth";
 
 const SideBar = ({isTopic, background, color}: any) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const mainBgColor = useSelector(getMainBgColor)
     const location = useLocation()
-    const activeRoute = useSelector(getActiveRoute)
 
     const routes = useMemo(() => {
         if(isTopic) {
@@ -21,6 +18,7 @@ const SideBar = ({isTopic, background, color}: any) => {
                 {
                     title: 'Відео',
                     img: process.env.PUBLIC_URL + '/images/VideoIcon.svg',
+                    darkIcon: process.env.PUBLIC_URL + '/images/VideoDarkIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.video,
                     handleClick: () => {
@@ -31,6 +29,7 @@ const SideBar = ({isTopic, background, color}: any) => {
                 {
                     title: 'Текст',
                     img: process.env.PUBLIC_URL + '/images/TextIcon.svg',
+                    darkIcon: process.env.PUBLIC_URL + '/images/textDarkIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.text,
                     handleClick: () => {
@@ -42,6 +41,7 @@ const SideBar = ({isTopic, background, color}: any) => {
                 {
                     title: 'Домашня робота',
                     img: process.env.PUBLIC_URL + '/images/HomeworkIcon.svg',
+                    darkIcon: process.env.PUBLIC_URL + '/images/homeworkDarkIcon.svg',
                     bgColor: '#2a2828',
                     to: pathes.topic.homework,
                     handleClick: () => {
@@ -66,6 +66,7 @@ const SideBar = ({isTopic, background, color}: any) => {
             {
                 title: 'Головна',
                 img: process.env.PUBLIC_URL + '/images/home.svg',
+                darkIcon: process.env.PUBLIC_URL + '/images/homeDarkIcon.svg',
                 bgColor: '#2a2828',
                 to: pathes.home,
                 handleClick: () => {
@@ -85,13 +86,13 @@ const SideBar = ({isTopic, background, color}: any) => {
 
             },
             {
-                title: 'Пройдені тести',
+                title: 'Виконані роботи',
                 img: process.env.PUBLIC_URL + '/images/completed_works.svg',
                 bgColor: '#2a2828',
                 to: pathes.completedWorks,
                 handleClick: () => {
                     navigate(pathes.home)
-                    dispatch(setActiveRoute('Пройдені тести'))
+                    dispatch(setActiveRoute('Виконані роботи'))
                 }
             },
             {
@@ -128,9 +129,9 @@ const SideBar = ({isTopic, background, color}: any) => {
                 title: 'Вихід',
                 img: process.env.PUBLIC_URL + '/images/logout.svg',
                 bgColor: '#2a2828',
-                to: pathes.topic.home,
+                to: pathes.login,
                 handleClick: () => {
-                    navigate(pathes.main)
+                    navigate(pathes.mainRoute)
                     dispatch(setActiveRoute('Completed works'))
                 }
             },
@@ -147,7 +148,7 @@ const SideBar = ({isTopic, background, color}: any) => {
                         to={route.to}
                     >
                         <div style={{backgroundColor: location.pathname.includes(route.to) ? background : route.bgColor, color: location.pathname.includes(route.to) && color}} className='SideBar__routeWrapper' onClick={route.handleClick}>
-                            <img src={route.img}/>
+                            <img src={location.pathname.includes(route.to) && route?.darkIcon ? route.darkIcon : route.img}/>
                             <a>{route.title}</a>
                         </div>
                     </NavLink>

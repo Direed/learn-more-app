@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
 import './style.scss'
-import {collectionGroup, getDocs, query, collection, addDoc, doc, getDoc, updateDoc} from "firebase/firestore";
+import {collectionGroup, getDocs, query, collection, addDoc, doc, getDoc, updateDoc, setDoc} from "firebase/firestore";
 import {useDispatch, useSelector} from "react-redux";
 import {getTopic} from "../../../store/selectors/topic";
 import {closeTest, completeTest, setAnswers, setCurrentTest, startTest} from "../../../store/actions/test";
@@ -33,16 +33,15 @@ const TestTopicPage = ({db}) => {
     const [testsFromDB, setTestsFromDB] = useState<any>(null);
     const [answer, setAnswer] = useState<any>(null);
 
-    console.log(tests, tests)
-    console.log(testsFromDB, 'testsFromDB')
-
     useEffect(() => {
         fetchData()
     }, [])
+
     async function fetchData () {
         const testTopic = query(collectionGroup(db, topic.topic_link))
         const querySnapshot = await getDocs(testTopic);
         let newData = querySnapshot.docs.map(doc => doc.data())
+        console.log(newData, 'tests from db')
         setTestsFromDB(newData)
     }
 
@@ -85,16 +84,37 @@ const TestTopicPage = ({db}) => {
     async function CompletedWorks(userAnswer, countRightAnswers) {
         const myProgressRef = doc(db, 'CompletedSubjects', user.uid);
         const myProgressObject = await getDoc(myProgressRef);
-        let isCompletedTest = myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link]?.test?.isTest
+        const myProgressObjectData = myProgressObject.data()
+        const progressData = myProgressObjectData ? myProgressObjectData : {};
+        const subjectData = myProgressObjectData && Object.keys(myProgressObjectData).includes(subject.topics_link) ? myProgressObjectData[subject.topics_link] : {};
+        const gradeData = myProgressObjectData && Object.keys(subjectData)?.includes(`${subject.topics_link}_grade${1}`) ? myProgressObjectData[subject.topics_link][`${subject.topics_link}_grade${1}`] : {};
+        const topicData = myProgressObjectData && Object.keys(gradeData)?.includes(topic.topic_link) ? myProgressObjectData[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link] : {};
+        let isCompletedTest = topicData?.test?.isTest
         if(!isCompletedTest) {
-            await updateDoc(myProgressRef, {
-                ...myProgressObject.data(),
+            // await updateDoc(myProgressRef, {
+            //     ...myProgressObject.data(),
+            //     [`${subject.topics_link}`]: {
+            //         ...myProgressObject.data()[subject.topics_link],
+            //         [`${topic?.grade}`]: {
+            //             ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`],
+            //             [`${topic?.topic_link}`]: {
+            //                 ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link],
+            //                 test: {
+            //                     isTest: countRightAnswers === userAnswer.length ? true : false,
+            //                     date: moment(new Date()).toString()
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
+            await setDoc(myProgressRef, {
+                ...progressData,
                 [`${subject.topics_link}`]: {
-                    ...myProgressObject.data()[subject.topics_link],
+                    ...subjectData,
                     [`${topic?.grade}`]: {
-                        ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`],
+                        ...gradeData,
                         [`${topic?.topic_link}`]: {
-                            ...myProgressObject.data()[subject.topics_link][`${subject.topics_link}_grade${1}`][topic.topic_link],
+                            ...topicData,
                             test: {
                                 isTest: countRightAnswers === userAnswer.length ? true : false,
                                 date: moment(new Date()).toString()
@@ -102,19 +122,22 @@ const TestTopicPage = ({db}) => {
                         }
                     }
                 }
-            });
+            }, {merge: true});
         }
         toast.success('Записав твої результати')
     }
 
+    console.log(answers, 'answers')
 
     const addCompletedTests = async (answers: any, countRightAnswers: any) => {
         await addDoc(collection(db, "CompletedTests"), {
             uid: user?.uid,
             subject: subject?.topics_link,
             subject_route: subject?.route,
+            subject_title: subject?.title,
             topic: topic?.topic_link,
             topic_route: topic?.route,
+            topic_title: topic?.title,
             answers: answers,
             count_right_answers: countRightAnswers,
             count_tests: answers?.length,
@@ -153,34 +176,36 @@ const TestTopicPage = ({db}) => {
     }, [])
 
     console.log('ANSWER!!!!!!!!!!!', answer)
+    console.log(tests, 'tests')
 
     return (
         <div className='TestTopicPage'>
             {isStartTest ? (
                 <div className='TestCard'>
                     <div className='TestCard--cancelButtonWrapper'><img src={process.env.PUBLIC_URL + '/images/CloseIcon.svg'} onClick={onCloseTest}/></div>
-                    <p className='TestCard--title'>{`${currentTest+1}. ${tests[currentTest]?.question}`}</p>
+                    <p className='TestCard--title'>{`${currentTest+1}. ${tests?.[currentTest]?.question}`}</p>
                     <div className='TestCard--answersWrapper'>
                         <RadioGroup
                             key={`radio-group-${currentTest+1}`}
                             aria-labelledby={`demo-radio-buttons-group-label-${currentTest+1}`}
                             name={`radio-buttons-group-${currentTest+1}`}
+                            defaultValue={answers?.[currentTest]?.answer ? answers?.[currentTest]?.answer : null}
                             onChange={(e: any) => {
                                 setAnswer({
-                                    question: tests[currentTest]?.question,
-                                    answers: tests[currentTest]?.answers,
+                                    question: tests?.[currentTest]?.question,
+                                    answers: tests?.[currentTest]?.answers,
                                     answer: e.target.value,
-                                    id: tests[currentTest]?.id,
+                                    id: tests?.[currentTest]?.id,
                                 })
                             }}
                         >
-                            {tests[currentTest]?.answers?.map((item: any) => {
+                            {tests?.[currentTest]?.answers?.map((item: any) => {
                                 return <FormControlLabel key={`test_${currentTest+1}-${item}`} className={'TestCard--answersWrapper--answer'} value={item} control={<Radio key={`test_${currentTest+1}-${item}`} color={'secondary'} />} label={item} />
                             })}
                         </RadioGroup>
                     </div>
                     <div className='TestCard--buttonWrapper'>
-                        {currentTest === tests.length-1 ? <button onClick={onGiveAnswer}>Answer</button> : null}
+                        {currentTest === tests?.length-1 ? <button onClick={onGiveAnswer}>Answer</button> : null}
                         {currentTest > 0 ? <div className='TestCard--buttonWrapper--backArrow' onClick={onPreviousStep}><img src={process.env.PUBLIC_URL + '/images/BackArrow.svg'}/></div> : null}
                         {currentTest < tests?.length-1 ? <div className='TestCard--buttonWrapper--nextArrow' onClick={onNextStep}><img src={process.env.PUBLIC_URL + '/images/NextArrow.svg'}/></div> : null}
                     </div>
@@ -188,7 +213,7 @@ const TestTopicPage = ({db}) => {
             ) : isResultTest ? (
                 <div className='ResultCard'>
                     <h1 className='ResultCard--title'>Результати тесту:</h1>
-                    {/*<p className='ResultCard--subtitle'>{`This test will take: ${testsFromDB?.length} tasks`}</p>*/}
+                    <p className='ResultCard--subtitle'>{`This test will take: ${testsFromDB?.length} tasks`}</p>
                     <div className='ResultCard--result-wrapper'>
                         {result?.results?.map((res: any) => (
                             <div className='result-row'>
@@ -206,8 +231,8 @@ const TestTopicPage = ({db}) => {
             ) : (
                 <>
                     <h1 className='TestTopicPage--title'>Перевірте свої знання</h1>
-                    <p className='TestTopicPage--subtitle'>{`This test will take: ${testsFromDB?.length} tasks`}</p>
-                    <button className='TestTopicPage--button' type='button' onClick={onStartTest}>Почати</button>
+                    <p className='TestTopicPage--subtitle'>{`Цей тест містить: ${testsFromDB?.length} tasks`}</p>
+                    {testsFromDB?.length && <button className='TestTopicPage--button' type='button' onClick={onStartTest}>Почати</button>}
                 </>
                 )}
         </div>
